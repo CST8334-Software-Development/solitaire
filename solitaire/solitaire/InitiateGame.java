@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 public class InitiateGame {
 	
-	//Create a new full deck
+	//Create a new full deck object which will contain an array of Card objects
 	private Full_Deck Deck = new Full_Deck();
+	//Create the Tableau's
 	private Tableau Tableau1 = new Tableau(13);
 	private Tableau Tableau2 = new Tableau(13);
 	private Tableau Tableau3 = new Tableau(13);
@@ -14,16 +15,17 @@ public class InitiateGame {
 	private Tableau Tableau6 = new Tableau(13);
 	private Tableau Tableau7 = new Tableau(13);
 	
-	//Generate stockPile
+	//Create stock pile object
 	private Stock_Pile stockPile = new Stock_Pile();
 	
 	
-	//constructor
+	//constructor (initiate the game)
 	public InitiateGame() {
 	
-		//shuffle the full deck
+		//shuffle the full deck created above
 		Deck.Shuffle_Deck();
-		
+					
+					//following commented code was to test the Deck which was successful
 					/*System.out.println(Deck.getCard(8).getCardValue());
 					System.out.println(Deck.getCard(8).getCardSuit());
 					System.out.println(Deck.getCard(8).getStatus());
@@ -33,11 +35,11 @@ public class InitiateGame {
 					System.out.println(Deck.getCard(0).getStatus());*/
 		
 		//put first 24 cards in the stock pile
-		
 		for(int i=0; i<24; i++) {
 			stockPile.putInStockPile(i, Deck.getCard(i));
 		}
-					//System.out.println(Arrays.deepToString(stockPile.getStockPile()));
+				//following commented code to test the stock Pile	
+				//System.out.println(Arrays.deepToString(stockPile.getStockPile()));
 		
 		//put remaining cards in 7 tableau's
 		//put 1 card in Tableau 1
@@ -75,6 +77,8 @@ public class InitiateGame {
 			Tableau7.putInTableauPile(i-1, Deck.getCard(i+44));
 		}
 		
+		//set the last card of the tableau (last index) to a status "revealed" (boolean to true for the variable "revealed"
+		//The boolean revealed set to true indicate to swing that the card should be shown
 		Tableau1.getCard(0).setRevealed();
 		Tableau2.getCard(1).setRevealed();
 		Tableau3.getCard(2).setRevealed();
@@ -84,6 +88,7 @@ public class InitiateGame {
 		Tableau7.getCard(6).setRevealed();
 	}
 	
+	//get the Tableau1 object and so on
 	public Tableau getTableau1() {
 		return this.Tableau1;
 	}
@@ -112,6 +117,7 @@ public class InitiateGame {
 		return this.Tableau7;
 	}
 	
+	//get the stock pile object
 	public Stock_Pile getStockPile() {
 		return this.stockPile;
 	}

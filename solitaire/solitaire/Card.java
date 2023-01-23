@@ -10,7 +10,6 @@ public class Card {
 	
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
-	//
 	public Card(int value, String suit, String imagePath) {
 		this.revealed = false;
 		this.value = value;
@@ -28,18 +27,22 @@ public class Card {
 		this.revealed = false;
 	}
 	
+	//get the card value
 	public int getCardValue() {
 		return this.value;
 	}
 	
+	//get the card suit
 	public String getCardSuit() {
 		return this.suit;
 	}
 
+	//get the statut (revealed or not)
 	public Boolean getStatus() {
 		return this.revealed;
 	}
 	
+	//get the appropriate image path wether it is revealed or not
 	public String getImagePath() {
 		if(revealed = true) {
 		return this.imagePath;

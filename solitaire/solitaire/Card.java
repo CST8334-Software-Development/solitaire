@@ -1,12 +1,19 @@
 package solitaire;
 
+import java.awt.Graphics;
+import java.awt.Point;
+
 public class Card {
 
+	public static int CARD_HIGHT=120;
+	public static int CARD_WIDTH=85;
+	
 	private boolean revealed;
 	private int value;
 	private String suit;
 	private String imagePath;
-	
+	private int x=0;		//x position
+	private int y=0;		//y position
 	
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
@@ -49,5 +56,18 @@ public class Card {
 		} else {
 		return "src/card_graphics/Face_dog.png";	
 		}
+	}
+	
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Point getPoint() {
+		return new Point(x,y);
+	}
+	
+	public void draw(Graphics g) {
+		
 	}
 }

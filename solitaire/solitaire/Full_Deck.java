@@ -46,6 +46,7 @@ public class Full_Deck {
 	
 	//get a specific card in the array using its index
 	public Card getCard(int cardIndex) {
+		if (cardIndex>cardArray.length-1) return null;
 		return cardArray[cardIndex];
 	}
 }

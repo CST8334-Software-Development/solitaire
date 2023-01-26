@@ -69,7 +69,7 @@ public class DoAction {
 								y = y+(clicks*20);
 								panel1.remove(0);
 								System.out.println(e.getClickCount());
-								graphics = new Card_Graphics(100, y, pile.getCard(clicks).returnCardImage());
+								graphics = new Card_Graphics(100, y, pile.getCard(clicks -1).returnCardImage());
 								graphics.setBorder(b2); 
 								graphics.setSize(85, 119); 
 								myList.set(clicks, graphics); 

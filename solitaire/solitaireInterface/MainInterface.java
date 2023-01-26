@@ -42,7 +42,8 @@ public class MainInterface {
 			}
 		});
 		Card card = new Card(1, "Clubs", "/images/club_" + 1 + "_dog.png");
-		Card_Graphics graphics = new Card_Graphics(400, 100, card.generateCard(card.getImagePath()));
+		card.generateCard(card.getImagePath());
+		Card_Graphics graphics = new Card_Graphics(400, 100, card.returnCardImage());
 		graphics.setSize(85, 119);
 		panel1.add(graphics);
 		panel.add(start);

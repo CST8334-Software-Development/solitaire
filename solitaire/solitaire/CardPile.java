@@ -1,62 +1,52 @@
 package solitaire;
 
-import java.awt.*;
-import java.util.Stack;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.util.ArrayList;
 
 public class CardPile {
+
+	protected ArrayList<Card> cards;
+	private int x=0;		//x position
+	private int y=0;		//y position
 	
-	// coordinates of the card pile
-	protected int x;
-	protected int y;
-	protected Stack<Card> thePile;
-
-	// constructor
-	CardPile (int xl, int yl) { 
-
-		this.x = xl;
-		this.y = yl;
-		thePile = new Stack<Card>();
+	public CardPile() {
+		cards = new ArrayList<Card>();
 	}
-
-	// access to cards are not overridden
-	public final Card top() { 
-		if (!thePile.empty())
-			return thePile.peek();
-		return null;
+	//put the new card into the end of ArrayList
+	public void push(Card aCard) {
+		cards.add(aCard);
 	}
-
-	public final boolean isEmpty() {
-		return thePile.empty();
+	//get the card from the end of ArrayList and remove it
+	public Card pop() {
+		if (cards.isEmpty()) return null;
+		return cards.remove(cards.size()-1);
 	}
-
-	public final Card pop() {
-		if (!thePile.empty())
-			return thePile.pop();
-		return null;
+	//get the card at the end of the ArrayList
+	public Card top() {
+		if (cards.isEmpty()) return null;
+		return cards.get(cards.size()-1);
 	}
-
-	// the following are sometimes overridden
-	public boolean includes (int tx, int ty) {
-		return x <= tx && tx <= x + Card.width && y <= ty && ty <= y + Card.height;
+	//get the card at the beginning of ArrayList
+	public Card tail() {
+		if (cards.isEmpty()) return null;
+		return cards.get(0);
 	}
-	
-	public void select (int tx, int ty) {
-		// do nothing
+	//get how many cards in the pile
+	public int getActualSize() {
+		return cards==null?0:cards.size();
 	}
-
-	public void addCard (Card aCard)  {
-		this.thePile.push(aCard);
+	//set position of card pile
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
-
-	public void display (Graphics g) {
-		g.setColor(Color.blue);
-		if (isEmpty())
-			g.drawRect(x, y, Card.width, Card.height);
-		else
-			top().draw(g, x, y);
+	//get position of card pile
+	public Point getPoint(int x,int y) {
+		return new Point(x,y);
 	}
-
-	public boolean canTake (Card aCard) {
-		return false; 
+	//draw the card pile
+	public void draw(Graphics g) {
+		
 	}
 }

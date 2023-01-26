@@ -1,102 +1,95 @@
 package solitaire;
-import java.awt.Color;
+
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class Card {
-	
-	// public constants for card width and suits
-	final public static int width = 50;
-	final public static int height = 70;
-	final public static int heart = 0;
-	final public static int spade = 1;
-	final public static int diamond = 2;
-	final public static int club = 3;
-	
-	// internal data fields for rank and suit
-	private boolean faceup;
-	private int rank;
-	private int suit;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
-	// constructor
-	Card (int sv, int rv) {
-		this.suit = sv;
-		this.rank = rv;
+public class Card extends JPanel{
+
+	public static int CARD_HIGHT=120;
+	public static int CARD_WIDTH=85;
+	
+	private boolean revealed;
+	private int value;
+	private String suit;
+	private String imagePath;
+	private int x=0;		//x position
+	private int y=0;		//y position
+	private BufferedImage cardImage;
+	
+	//card constructor
+	//We will initially make all cards face down. We will reveal once we know their position. 
+	public Card(int value, String suit, String imagePath) {
+		this.revealed = false;
+		this.value = value;
+		this.suit = suit;
+		this.imagePath = imagePath;
+	}
+	
+	//reveal the face of the card
+	public void setRevealed(){
+		this.revealed = true;
 	}
 
-	// access attributes of card
-	public int rank () { 
-		return this.rank;
+	//for now, we will assume that once a card is revealed, it stays revealed
+	public void setFaceDown() {
+		this.revealed = false;
 	}
-
-	public int suit() { 
+	
+	//get the card value
+	public int getCardValue() {
+		return this.value;
+	}
+	
+	//get the card suit
+	public String getCardSuit() {
 		return this.suit;
 	}
 
-	public boolean faceUp()	{
-		return this.faceup;
+	//get the statut (revealed or not)
+	public Boolean getStatus() {
+		return this.revealed;
 	}
-
-	public void flip() {
-		this.faceup=!this.faceup;
-	}
-
-	public Color color() {
-		if (this.faceup){
-			if (this.suit==heart || this.suit==diamond) return Color.BLACK;
-			if (this.suit==spade || this.suit==club) return Color.RED;
-		} 
-		return Color.BLACK;
-	}
-
-	public void draw (Graphics g, int x, int y) {
-		String names[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-		
- 		// clear rectangle, draw border
-		g.clearRect(x, y, width, height);
-		g.setColor(Color.blue);
-		g.drawRect(x, y, width, height);
-		
-		// draw body of card
-		g.setColor(color());
-		if (faceUp()) {
-			g.drawString(names[rank()], x+3, y+15);
-			if (suit() == heart) {
-				g.drawLine(x+25, y+30, x+35, y+20);
-				g.drawLine(x+35, y+20, x+45, y+30);
-				g.drawLine(x+45, y+30, x+25, y+60);
-				g.drawLine(x+25, y+60, x+5, y+30);
-				g.drawLine(x+5, y+30, x+15, y+20);
-				g.drawLine(x+15, y+20, x+25, y+30);
-				}
-			else if (suit() == spade) {
-				g.drawLine(x+25, y+20, x+40, y+50);
-				g.drawLine(x+40, y+50, x+10, y+50);
-				g.drawLine(x+10, y+50, x+25, y+20);
-				g.drawLine(x+23, y+45, x+20, y+60);
-				g.drawLine(x+20, y+60, x+30, y+60);
-				g.drawLine(x+30, y+60, x+27, y+45); 
-				}
-			else if (suit() == diamond) {
-				g.drawLine(x+25, y+20, x+40, y+40);
-				g.drawLine(x+40, y+40, x+25, y+60);
-				g.drawLine(x+25, y+60, x+10, y+40);
-				g.drawLine(x+10, y+40, x+25, y+20);
-				}
-			else if (suit() == club) {
-				g.drawOval(x+20, y+25, 10, 10);
-				g.drawOval(x+25, y+35, 10, 10);
-				g.drawOval(x+15, y+35, 10, 10);
-				g.drawLine(x+23, y+45, x+20, y+55);
-				g.drawLine(x+20, y+55, x+30, y+55);
-				g.drawLine(x+30, y+55, x+27, y+45); 
-				}
-			}
-		else { // face down
-			g.drawLine(x+15, y+5, x+15, y+65);
-			g.drawLine(x+35, y+5, x+35, y+65);
-			g.drawLine(x+5, y+20, x+45, y+20);
-			g.drawLine(x+5, y+35, x+45, y+35);
-			g.drawLine(x+5, y+50, x+45, y+50);
-			}
+	
+	//get the appropriate image path wether it is revealed or not
+	public String getImagePath() {
+		if(revealed = true) {
+		return this.imagePath;
+		} else {
+		return "src/card_graphics/Face_dog.png";	
 		}
+	}
+	
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Point getPoint() {
+		return new Point(x,y);
+	}
+	
+	public void draw(Graphics g) {
+	     super.paintComponent(g);
+	        if (cardImage != null) {
+	            g.drawImage(cardImage, x, y, this);
+	        }
+		
+	}
+	public void generateCard(String imagePath) {
+		try {
+			this.cardImage = ImageIO.read(getClass().getResource(imagePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public BufferedImage returnCardImage() {
+		return cardImage;
+	}
 }

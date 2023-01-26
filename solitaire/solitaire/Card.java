@@ -79,7 +79,6 @@ public class Card extends JPanel{
 	        if (cardImage != null) {
 	            g.drawImage(cardImage, x, y, this);
 	        }
-		
 	}
 	public void generateCard(String imagePath) {
 		try {

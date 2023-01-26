@@ -43,8 +43,8 @@ public class MainInterface {
 		});
 		Card card = new Card(1, "Clubs", "/images/club_" + 1 + "_dog.png");
 		card.generateCard(card.getImagePath());
-		Card_Graphics graphics = new Card_Graphics(400, 100, card.returnCardImage());
-		graphics.setSize(85, 119);
+		Card_Graphics graphics = new Card_Graphics(200, 100, card.returnCardImage());
+		graphics.setSize(100, 100);
 		panel1.add(graphics);
 		panel.add(start);
 		panel1.setVisible(true);
@@ -52,5 +52,4 @@ public class MainInterface {
 		myFrame.add(panel, BorderLayout.SOUTH);
 		myFrame.setVisible(true);
 	}
-
 }

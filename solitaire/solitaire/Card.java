@@ -64,15 +64,6 @@ public class Card extends JPanel{
 		}
 	}
 	
-	public void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
-	public Point getPoint() {
-		return new Point(x,y);
-	}
-	
 	public void draw(Graphics g) {
 	     super.paintComponent(g);
 	        if (cardImage != null) {

@@ -1,6 +1,7 @@
 package solitaire;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,8 +10,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Card extends JPanel{
-
-public class Card {
 
 	public static int CARD_HIGHT=120;
 	public static int CARD_WIDTH=85;
@@ -22,6 +21,7 @@ public class Card {
 	private int x=0;		//x position
 	private int y=0;		//y position
 	private BufferedImage cardImage;
+	private Image newImage;
 	
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
@@ -82,13 +82,17 @@ public class Card {
 	public void generateCard(String imagePath) {
 		try {
 			this.cardImage = ImageIO.read(getClass().getResource(imagePath));
+			this.newImage = cardImage.getScaledInstance(85, 119, Image.SCALE_FAST);
+			repaint();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public BufferedImage returnCardImage() {
-		return cardImage;
-	}	
+	public Image returnCardImage() {
+		return newImage;
 	}
-}
+
+	}
+
+

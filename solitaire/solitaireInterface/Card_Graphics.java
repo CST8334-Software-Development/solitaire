@@ -5,6 +5,7 @@ package solitaireInterface;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -13,9 +14,9 @@ import javax.imageio.ImageIO;
 
 public class Card_Graphics extends Stock_Pile{
 
-	private BufferedImage cardImage;
+	private Image cardImage;
 	
-	Card_Graphics(int x, int y, BufferedImage image) {
+	Card_Graphics(int x, int y, Image image) {
 		super(x, y);
 		this.cardImage = image;
 	}

@@ -1,4 +1,4 @@
-package solitaire;
+
 
 import java.awt.*;
 import java.util.Stack;

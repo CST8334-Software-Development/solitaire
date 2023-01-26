@@ -1,4 +1,4 @@
-package solitaire;
+
 
 class DiscardPile extends CardPile {
 	

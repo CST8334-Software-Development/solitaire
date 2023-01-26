@@ -1,4 +1,4 @@
-package solitaire;
+
 
 class SuitPile extends CardPile {
 

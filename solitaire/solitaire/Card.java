@@ -5,11 +5,12 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Card extends JPanel{
+
+public class Card {
 
 	public static int CARD_HIGHT=120;
 	public static int CARD_WIDTH=85;
@@ -40,12 +41,10 @@ public class Card extends JPanel{
 	public void setFaceDown() {
 		this.revealed = false;
 	}
-	
 	//get the card value
 	public int getCardValue() {
 		return this.value;
 	}
-	
 	//get the card suit
 	public String getCardSuit() {
 		return this.suit;
@@ -90,5 +89,6 @@ public class Card extends JPanel{
 	
 	public BufferedImage returnCardImage() {
 		return cardImage;
+	}	
 	}
 }

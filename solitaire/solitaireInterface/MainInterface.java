@@ -43,14 +43,17 @@ public class MainInterface {
 		});
 		Card card = new Card(1, "Clubs", "/images/club_" + 1 + "_dog.png");
 		card.generateCard(card.getImagePath());
-		Card_Graphics graphics = new Card_Graphics(400, 100, card.returnCardImage());
+		Card_Graphics graphics = new Card_Graphics(200, 100, card.returnCardImage());
+		Card_Graphics graphics2 = new Card_Graphics(300, 300, card.returnCardImage());
 		graphics.setSize(85, 119);
+		graphics2.setSize(85,119);
+		panel1.setBackground(Color.ORANGE);
 		panel1.add(graphics);
+		panel1.add(graphics2);
 		panel.add(start);
 		panel1.setVisible(true);
 		myFrame.add(panel1);
 		myFrame.add(panel, BorderLayout.SOUTH);
 		myFrame.setVisible(true);
 	}
-
 }

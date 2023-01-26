@@ -45,6 +45,19 @@ public class CardPile {
 	public Point getPoint(int x,int y) {
 		return new Point(x,y);
 	}
+	
+	public Card getCard( int x) {
+		return cards.get(x);
+	}
+	
+	public int getXCoord() {
+		return x;
+	}
+
+	public int getYCoord() {
+		return x;
+	}
+	
 	//draw the card pile
 	public void draw(Graphics g) {
 		

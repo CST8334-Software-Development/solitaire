@@ -65,10 +65,11 @@ public class Card extends JPanel{
 		if(revealed = true) {
 		return this.imagePath;
 		} else {
-		return "src/card_graphics/Face_dog.png";	
+		return "src/images/back.png";	
 		}
 	}
 	
+
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -87,6 +88,7 @@ public class Card extends JPanel{
 	            g.drawImage(cardImage, x, y, this);
 	        }
 	}
+
 	public void generateCard(String imagePath) {
 		try {
 			this.cardImage = ImageIO.read(getClass().getResource(imagePath));

@@ -60,7 +60,7 @@ public class Card extends JPanel{
 		if(revealed = true) {
 		return this.imagePath;
 		} else {
-		return "src/card_graphics/Face_dog.png";	
+		return "src/images/back.png";	
 		}
 	}
 	

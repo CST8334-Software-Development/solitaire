@@ -64,12 +64,6 @@ public class Card extends JPanel{
 		}
 	}
 	
-	public void draw(Graphics g) {
-	     super.paintComponent(g);
-	        if (cardImage != null) {
-	            g.drawImage(cardImage, x, y, this);
-	        }
-	}
 	public void generateCard(String imagePath) {
 		try {
 			this.cardImage = ImageIO.read(getClass().getResource(imagePath));

@@ -1,5 +1,7 @@
 package solitaire;
 
+import solitaireInterface.DoAction;
+
 public class InitiateGame {
 	
 	//Create a new full deck object which will contain an array of Card objects
@@ -123,5 +125,11 @@ public class InitiateGame {
 	}
 	public WastePile getWastePile() {
 		return this.wastePile;
+	}
+	
+	//******Pascal: show the game board by passing the Tableau1 as an object to be used in the DoAction class
+	public void showGameBoard() {
+		DoAction show = null;
+		show.doEverything(Tableau1, 50, 1);
 	}
 }

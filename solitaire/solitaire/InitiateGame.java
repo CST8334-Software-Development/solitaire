@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import solitaireInterface.DoAction;
 
@@ -30,6 +31,7 @@ public class InitiateGame {
 	private WastePile wastePile;
 	//Create foundation pile object
 	private ArrayList<FoundationPile> foundationPiles;
+	private JFrame mainFrame;
 	
 	//constructor
 	public InitiateGame() {
@@ -84,18 +86,22 @@ public class InitiateGame {
 		for(int i=1;i<6;i++) {
 			tableauPile5.push(Deck.getCard(i+33));
 		}
-		
+		tableauPiles.add(tableauPile5);
+
 		//put 6 cards in Tableau 6
 		TableauPile tableauPile6= new TableauPile();
 		for(int i=1;i<7;i++) {
 			tableauPile6.push(Deck.getCard(i+38));
 		}
-		
+		tableauPiles.add(tableauPile6);
+
 		//put 7 cards in Tableau 7
 		TableauPile tableauPile7= new TableauPile();
 		for(int i=1;i<8;i++) {
 			tableauPile7.push(Deck.getCard(i+44));
 		}
+		tableauPiles.add(tableauPile7);
+
 		
 		//set the last card of the tableau (last index) to a status "revealed" (boolean to true for the variable "revealed"
 		//The boolean revealed set to true indicate to swing that the card should be shown
@@ -104,17 +110,25 @@ public class InitiateGame {
 		}
 		
 		wastePile = new WastePile();
-		stockPile = new StockPile();
+		foundationPiles = new ArrayList<FoundationPile>();
+		foundationPiles.add(new FoundationPile());
+		foundationPiles.add(new FoundationPile());
+		foundationPiles.add(new FoundationPile());
+		foundationPiles.add(new FoundationPile());
+
 	}
 	
 	public void startNewGame() {
 		initAllCardsForGame();
-		initAllPilesOnScreen();
+ 		initAllPilesOnScreen();
 	}
 	
 	// show all the piles on screen
 	private void initAllPilesOnScreen() {
-		JFrame mainFrame = new JFrame("Solitaire");
+		if (mainFrame!=null)	
+			mainFrame.dispose();
+		
+		mainFrame = new JFrame("Solitaire");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		mainFrame.setSize(TABLE_WIDTH,TABLE_HEIGHT);
@@ -142,66 +156,101 @@ public class InitiateGame {
 		newGameMenu.add(newGameItem);
 		newGameMenu.add(exitItem);
 		menuBar.add(newGameMenu);
-		
 		mainFrame.setJMenuBar(menuBar);
-		mainFrame.setVisible(true);
+		mainFrame.getContentPane().setBackground(Color.orange);
+				
+//		drawStockPile();
+//		drawWastePile();
+//		drawFoundationPile();
+//		drawTableauPile();
 		
-		drawStockPile();
-		drawWastePile();
-		drawFoundationPile();
-		drawTableauPile();
+		mainFrame.setVisible(true);
 	}
 	
 	//TO-DO:
 	private void drawStockPile() {
 		//draw stock pile at 
-		new Point(DEFAULT_GAP,DEFAULT_GAP);
+		//new Point(DEFAULT_GAP,DEFAULT_GAP);
+
+//		stockPile.setPosition(DEFAULT_GAP, DEFAULT_GAP);
+//		mainFrame.add(stockPile);
+		
+		
 	}
 	//TO-DO:
 	private void drawWastePile() {
 		//draw at 
-		new Point(DEFAULT_GAP+Card.CARD_WIDTH,
-				DEFAULT_GAP);
+		//new Point(DEFAULT_GAP+Card.CARD_WIDTH,
+//				DEFAULT_GAP);
+//		wastePile.setPosition(2*DEFAULT_GAP+Card.CARD_WIDTH,
+//				DEFAULT_GAP);
+//		mainFrame.add(wastePile);
 	}
 	
 	//TO-DO:
 	private void drawFoundationPile(){
 		//Foundation1 draw at 
-		new Point(2*DEFAULT_GAP+2*Card.CARD_WIDTH+BIG_GAP,
-				DEFAULT_GAP);
-		//Foundation2 draw at 
-		new Point(3*DEFAULT_GAP+3*Card.CARD_WIDTH+BIG_GAP,
-				DEFAULT_GAP);
-		//Foundation3 draw at 
-		new Point(4*DEFAULT_GAP+4*Card.CARD_WIDTH+BIG_GAP,
-				DEFAULT_GAP);
-		//Foundation4 draw at 
-		new Point(5*DEFAULT_GAP+5*Card.CARD_WIDTH+BIG_GAP,
-				DEFAULT_GAP);
+////		new Point(2*DEFAULT_GAP+2*Card.CARD_WIDTH+BIG_GAP,
+////				DEFAULT_GAP);
+//		foundationPiles.get(0).setPosition(2*DEFAULT_GAP+2*Card.CARD_WIDTH+BIG_GAP,
+//				DEFAULT_GAP);
+////		//Foundation2 draw at 
+////		new Point(3*DEFAULT_GAP+3*Card.CARD_WIDTH+BIG_GAP,
+////				DEFAULT_GAP);
+//		foundationPiles.get(1).setPosition(3*DEFAULT_GAP+3*Card.CARD_WIDTH+BIG_GAP,
+//				DEFAULT_GAP);
+//		//Foundation3 draw at 
+////		new Point(4*DEFAULT_GAP+4*Card.CARD_WIDTH+BIG_GAP,
+////				DEFAULT_GAP);
+//		foundationPiles.get(2).setPosition(4*DEFAULT_GAP+4*Card.CARD_WIDTH+BIG_GAP,
+//				DEFAULT_GAP);
+//		//Foundation4 draw at 
+////		new Point(5*DEFAULT_GAP+5*Card.CARD_WIDTH+BIG_GAP,
+////				DEFAULT_GAP);
+//		foundationPiles.get(3).setPosition(5*DEFAULT_GAP+5*Card.CARD_WIDTH+BIG_GAP,
+//				DEFAULT_GAP);
+//		for (FoundationPile pile:foundationPiles)
+//			mainFrame.add(pile);
 	}
 	//TO-DO:
 	private void drawTableauPile() {
-		//TABLE1 draw at 
-		new Point(DEFAULT_GAP,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
-		//TABLE2 draw at 
-		new Point(2*DEFAULT_GAP+Card.CARD_WIDTH,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
-		//TABLE3 draw at 
-		new Point(3*DEFAULT_GAP+2*Card.CARD_WIDTH,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
-		//TABLE4 draw at 
-		new Point(4*DEFAULT_GAP+3*Card.CARD_WIDTH,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
-		//TABLE5 draw at 
-		new Point(5*DEFAULT_GAP+4*Card.CARD_WIDTH,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
-		//TABLE6 draw at 
-		new Point(6*DEFAULT_GAP+5*Card.CARD_WIDTH,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
-		//TABLE7 draw at 
-		new Point(7*DEFAULT_GAP+6*Card.CARD_WIDTH,
-				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE1 draw at 
+////		new Point(DEFAULT_GAP,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(0).setPosition(DEFAULT_GAP,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE2 draw at 
+////		new Point(2*DEFAULT_GAP+Card.CARD_WIDTH,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(1).setPosition(2*DEFAULT_GAP+Card.CARD_WIDTH,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE3 draw at 
+////		new Point(3*DEFAULT_GAP+2*Card.CARD_WIDTH,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(2).setPosition(3*DEFAULT_GAP+2*Card.CARD_WIDTH,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE4 draw at 
+////		new Point(4*DEFAULT_GAP+3*Card.CARD_WIDTH,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(3).setPosition(4*DEFAULT_GAP+3*Card.CARD_WIDTH,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE5 draw at 
+////		new Point(5*DEFAULT_GAP+4*Card.CARD_WIDTH,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(4).setPosition(5*DEFAULT_GAP+4*Card.CARD_WIDTH,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE6 draw at 
+////		new Point(6*DEFAULT_GAP+5*Card.CARD_WIDTH,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(4).setPosition(6*DEFAULT_GAP+5*Card.CARD_WIDTH,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		//TABLE7 draw at 
+////		new Point(7*DEFAULT_GAP+6*Card.CARD_WIDTH,
+////				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		tableauPiles.get(4).setPosition(7*DEFAULT_GAP+6*Card.CARD_WIDTH,
+//				DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP);
+//		for (TableauPile pile:tableauPiles)
+//			mainFrame.add(pile);
 	}
 	
 	//get the Tableau pile  and so on

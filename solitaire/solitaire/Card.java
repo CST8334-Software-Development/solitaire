@@ -84,26 +84,21 @@ public class Card extends JPanel{
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
         if (cardImage != null) {
-            g.drawImage(cardImage, x, y, this);
+            Dimension dim = getPreferredSize();
+            g.drawImage(cardImage, x, y, dim.width, dim.height, this);
         }
 	}
 	
 	@Override
 	public Dimension getPreferredSize() {
-		if (cardImage == null || isPreferredSizeSet()) {
-			return super.getPreferredSize();
-		} else {
-			int w = 85;
-			int h = 119;
-			return new Dimension(w, h);
-		}
+		return new Dimension(CARD_WIDTH, CARD_HEIGHT);
 	}
 
 	public BufferedImage getCardImage() {
 		if (this.cardImage == null) {
 			try {
 				this.cardImage = ImageIO.read(getClass().getResource(imagePath));
-				this.newImage = cardImage.getScaledInstance(CARD_WIDTH, CARD_HEIGHT, Image.SCALE_FAST);
+//				this.newImage = cardImage.getScaledInstance(CARD_WIDTH, CARD_HEIGHT, Image.SCALE_FAST);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

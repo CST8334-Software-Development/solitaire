@@ -25,7 +25,7 @@ public class DoAction {
 	//******Pascal: added Object deckType which will be any object we input as a parameter, also a variable int xPosition as well as int amountOfCards, so this method can be used in the InitiateGame
 	                //...Class and be versatile for any CardPile wether it is a StockPile, TableauPile, WastePile etc...
 	//******Pascal: Can you find where the amount of Cards is specified in this code and replace it by the variable "amountOfCards"?
-	public void doEverything(Object deckType, int xPosition, int amountOfCards) {
+	public static void doEverything(Object deckType, int xPosition, int amountOfCards) {
 		int x = 0;
 		JFrame myFrame = new JFrame("Solitaire");
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

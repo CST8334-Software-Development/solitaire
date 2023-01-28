@@ -4,8 +4,11 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class CardPile {
+import javax.swing.JPanel;
 
+public class CardPile extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	protected ArrayList<Card> cards;
 	private int x=0;		//x position
 	private int y=0;		//y position
@@ -61,5 +64,8 @@ public class CardPile {
 	//draw the card pile
 	public void draw(Graphics g) {
 		
+	}
+	public boolean canPutOnTop() {
+		return false;
 	}
 }

@@ -134,11 +134,10 @@ public class InitiateGame {
 		wastePile = new WastePile();
 		stockPile = new StockPile();
 	}
-	
+
 	public ArrayList<TableauPile> getPiles() {
 		return tableauPiles;
 	}
-	
 
 	public void startNewGame() {
 		initAllCardsForGame();
@@ -172,10 +171,10 @@ public class InitiateGame {
 					drawWastePile();
 					drawFoundationPile();
 					drawTableauPile();
-					}
+				}
 			}
 		});
-		
+
 		mainFrame.add(panel, BorderLayout.SOUTH);
 		panel1.setBackground(Color.ORANGE); // background color can be set outside of the loop
 		panel1.setVisible(true);
@@ -206,18 +205,50 @@ public class InitiateGame {
 		mainFrame.setVisible(true);
 
 	}
-	
-	public JPanel putTableauPile(ArrayList<TableauPile> pile, int pileNumber, Point myPoint) {
-		this.tableauPiles = pile;
+
+	CardPile pile;
+
+	public JPanel putPiles(CardPile pile, Point myPoint) {
+		this.pile = pile;
+		ArrayList<Card_Graphics> myList = new ArrayList<>();
+		panel1.setLayout(null);
+		Card_Graphics graphics = null; // Lazy initialization
+		for (int card1 = 0; card1 < pile.getActualSize(); card1++, myPoint.y += 30) {
+			Border b2 = new LineBorder(Color.BLACK, 1);
+			graphics = new Card_Graphics(myPoint.x, myPoint.y,
+					pile.getCard(card1).generateCard(pile.getCard(card1).getImagePath()));
+			graphics.setBorder(b2); // sets border to each graphic
+			graphics.setSize(85, 119); // set size method
+			/*
+			 * When clicking on the card, it will generate a card in a different location.
+			 * It will remove the current uppermost card from the view.
+			 */
+			graphics.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+				}
+			});
+			myList.add(graphics); // adds each card to panel
+			for (int i1 = 0; i1 < myList.size(); i1++) {
+				panel1.add(myList.get(i1));
+				panel1.repaint();
+			}
+		}
+
+		return panel1;
+	}
+
+	public JPanel putFoundationPile(ArrayList<FoundationPile> pile, int pileNumber, Point myPoint) {
+		this.foundationPiles = pile;
 
 		System.out.println(getPiles().size());
 		ArrayList<Card_Graphics> myList = new ArrayList<>();
 		panel1.setLayout(null);
 		Card_Graphics graphics = null; // Lazy initialization
-		for (int card1 = 0; card1 < tableauPiles.get(pileNumber).getActualSize(); card1++, myPoint.y += 30) {
+		for (int card1 = 0; card1 < tableauPiles.get(pileNumber).getActualSize(); card1++, myPoint.y += 2) {
 			Border b2 = new LineBorder(Color.BLACK, 1);
-			graphics = new Card_Graphics(myPoint.x, myPoint.y,
-					tableauPiles.get(pileNumber).getCard(card1).generateCard(tableauPiles.get(pileNumber).getCard(card1).getImagePath()));
+			graphics = new Card_Graphics(myPoint.x, myPoint.y, tableauPiles.get(pileNumber).getCard(card1)
+					.generateCard(tableauPiles.get(pileNumber).getCard(card1).getImagePath()));
 			graphics.setBorder(b2); // sets border to each graphic
 			graphics.setSize(85, 119); // set size method
 			/*
@@ -237,54 +268,89 @@ public class InitiateGame {
 		}
 		return panel1;
 	}
-	
+
+	public JPanel putTableauPile(ArrayList<TableauPile> pile, int pileNumber, Point myPoint) {
+		this.tableauPiles = pile;
+
+		System.out.println(getPiles().size());
+		ArrayList<Card_Graphics> myList = new ArrayList<>();
+		panel1.setLayout(null);
+		Card_Graphics graphics = null; // Lazy initialization
+		for (int card1 = 0; card1 < tableauPiles.get(pileNumber).getActualSize(); card1++, myPoint.y += 30) {
+			Border b2 = new LineBorder(Color.BLACK, 1);
+			graphics = new Card_Graphics(myPoint.x, myPoint.y, tableauPiles.get(pileNumber).getCard(card1)
+					.generateCard(tableauPiles.get(pileNumber).getCard(card1).getImagePath()));
+			graphics.setBorder(b2); // sets border to each graphic
+			graphics.setSize(85, 119); // set size method
+			/*
+			 * When clicking on the card, it will generate a card in a different location.
+			 * It will remove the current uppermost card from the view.
+			 */
+			graphics.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+				}
+			});
+			myList.add(graphics); // adds each card to panel
+			for (int i1 = 0; i1 < myList.size(); i1++) {
+				panel1.add(myList.get(i1));
+				panel1.repaint();
+			}
+		}
+		return panel1;
+	}
 
 	// TO-DO:
 	private void drawStockPile() {
 		// draw stock pile at
-		new Point(DEFAULT_GAP, DEFAULT_GAP);
+		panel1 = putPiles(stockPile, new Point(DEFAULT_GAP, DEFAULT_GAP));
 	}
 
 	// TO-DO:
 	private void drawWastePile() {
 		// draw at
-		new Point(DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP);
+		panel1 = putPiles(wastePile, new Point(DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP));
 	}
 
 	// TO-DO:
 	private void drawFoundationPile() {
 		// Foundation1 draw at
-		new Point(2 * DEFAULT_GAP + 2 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP);
+		panel1 = putFoundationPile(foundationPiles, 0,
+				new Point(2 * DEFAULT_GAP + 2 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP));
 		// Foundation2 draw at
-		new Point(3 * DEFAULT_GAP + 3 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP);
+		panel1 = putFoundationPile(foundationPiles, 1,
+				new Point(3 * DEFAULT_GAP + 3 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP));
 		// Foundation3 draw at
-		new Point(4 * DEFAULT_GAP + 4 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP);
+		panel1 = putFoundationPile(foundationPiles, 2,
+				new Point(4 * DEFAULT_GAP + 4 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP));
 		// Foundation4 draw at
-		new Point(5 * DEFAULT_GAP + 5 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP);
+		panel1 = putFoundationPile(foundationPiles, 3,
+				new Point(5 * DEFAULT_GAP + 5 * Card.CARD_WIDTH + BIG_GAP, DEFAULT_GAP));
 	}
 
 	// TO-DO:
 	private void drawTableauPile() {
 		// TABLE1 draw at
-		panel1 = putTableauPile(getPiles(), 0,new Point(DEFAULT_GAP,DEFAULT_GAP+Card.CARD_HEIGHT+2*DEFAULT_GAP));
+		panel1 = putTableauPile(getPiles(), 0,
+				new Point(DEFAULT_GAP, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 		// TABLE2 draw at
 		panel1 = putTableauPile(getPiles(), 1,
-		new Point(2 * DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+				new Point(2 * DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 		// TABLE3 draw at
 		panel1 = putTableauPile(getPiles(), 2,
-		new Point(3 * DEFAULT_GAP + 2 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+				new Point(3 * DEFAULT_GAP + 2 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 		// TABLE4 draw at
 		panel1 = putTableauPile(getPiles(), 3,
-		new Point(4 * DEFAULT_GAP + 3 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+				new Point(4 * DEFAULT_GAP + 3 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 		// TABLE5 draw at
-		panel1 = putTableauPile(getPiles(), 4, 
-		new Point(5 * DEFAULT_GAP + 4 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+		panel1 = putTableauPile(getPiles(), 4,
+				new Point(5 * DEFAULT_GAP + 4 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 		// TABLE6 draw at
 		panel1 = putTableauPile(getPiles(), 5,
-		new Point(6 * DEFAULT_GAP + 5 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+				new Point(6 * DEFAULT_GAP + 5 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 		// TABLE7 draw at
 		panel1 = putTableauPile(getPiles(), 6,
-		new Point(7 * DEFAULT_GAP + 6 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+				new Point(7 * DEFAULT_GAP + 6 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
 	}
 
 	// get the Tableau pile and so on

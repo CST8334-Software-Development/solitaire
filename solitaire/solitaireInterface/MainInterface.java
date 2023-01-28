@@ -26,12 +26,13 @@ import javax.swing.border.LineBorder;
 import solitaire.Card;
 import solitaire.CardPile;
 import solitaire.Full_Deck;
+import solitaire.InitiateGame;
 
 public class MainInterface {
 	
 	public static void main(String[] args) {
-	DoAction doAction = new DoAction();
-	doAction.doEverything();
+		InitiateGame init = new InitiateGame();
+		init.startNewGame();
 	}
 	
 }

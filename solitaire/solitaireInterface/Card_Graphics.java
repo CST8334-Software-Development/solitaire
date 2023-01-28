@@ -1,8 +1,11 @@
 
 package solitaireInterface;
 
+import java.awt.AlphaComposite;
+import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -10,13 +13,15 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 
-public class Card_Graphics extends Stock_Pile {
-
+public class Card_Graphics extends JComponent {
+	int x;
+	int y;
 	private Image cardImage;
-
-	Card_Graphics(int x, int y, Image image) {
-		super(x, y);
+	
+	public Card_Graphics(int x, int y, Image image) {
+		super.setLocation(x,y);
 		this.cardImage = image;
 	}
 
@@ -38,7 +43,7 @@ public class Card_Graphics extends Stock_Pile {
 			return new Dimension(w, h);
 		}
 	}
-
+	
 	public Point getPoint() {
 		return new Point(x, y);
 	}
@@ -47,5 +52,12 @@ public class Card_Graphics extends Stock_Pile {
 		this.x = x;
 		this.y = y;
 	}
+
+	 @Override
+	    public boolean isOptimizedDrawingEnabled()
+	    {
+	        return false;
+	    }
+
 
 }

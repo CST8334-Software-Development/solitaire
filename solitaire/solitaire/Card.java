@@ -11,12 +11,19 @@ import javax.swing.JPanel;
 
 public class Card extends JPanel{
 
-	public static int CARD_HIGHT=120;
+	public static int CARD_HEIGHT=120;
 	public static int CARD_WIDTH=85;
+	
+
+	private static final long serialVersionUID = 1L;
+	final public static int SUIT_HEART = 0;
+	final public static int SUIT_SPADE = 1;
+	final public static int SUIT_DIAMOND = 2;
+	final public static int SUIT_CLUB = 3;
 	
 	private boolean revealed;
 	private int value;
-	private String suit;
+	private int suit;
 	private String imagePath;
 	private int x=0;		//x position
 	private int y=0;		//y position
@@ -25,10 +32,10 @@ public class Card extends JPanel{
 	
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
-	public Card(int value, String suit, String imagePath) {
+	public Card(int value, int suitClub, String imagePath) {
 		this.revealed = false;
 		this.value = value;
-		this.suit = suit;
+		this.suit = suitClub;
 		this.imagePath = imagePath;
 	}
 	
@@ -46,7 +53,7 @@ public class Card extends JPanel{
 		return this.value;
 	}
 	//get the card suit
-	public String getCardSuit() {
+	public int getCardSuit() {
 		return this.suit;
 	}
 
@@ -64,18 +71,27 @@ public class Card extends JPanel{
 		}
 	}
 	
-	public void generateCard(String imagePath) {
+	public Image generateCard(String imagePath) {
 		try {
 			this.cardImage = ImageIO.read(getClass().getResource(imagePath));
 			this.newImage = cardImage.getScaledInstance(85, 119, Image.SCALE_FAST);
 			repaint();
+			return newImage;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return newImage;
 		}
 	}
 	
 	public Image returnCardImage() {
 		return newImage;
+	}
+	
+
+	// get card color is red?
+	public boolean isCardRed() {
+		if (suit==0 || suit==2) return true;
+		return false;
 	}
 
 	}

@@ -21,7 +21,7 @@ public class Card extends JPanel{
 	final public static int SUIT_DIAMOND = 2;
 	final public static int SUIT_CLUB = 3;
 	
-	private boolean revealed;
+	private boolean revealed = false;
 	private int value;
 	private int suit;
 	private String imagePath;
@@ -33,20 +33,23 @@ public class Card extends JPanel{
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
 	public Card(int value, int suitClub, String imagePath) {
-		this.revealed = false;
+		this.revealed = revealed;
 		this.value = value;
 		this.suit = suitClub;
 		this.imagePath = imagePath;
 	}
 	
+	public Card() {
+		
+	}
 	//reveal the face of the card
 	public void setRevealed(){
 		this.revealed = true;
 	}
-
 	//for now, we will assume that once a card is revealed, it stays revealed
 	public void setFaceDown() {
 		this.revealed = false;
+		
 	}
 	//get the card value
 	public int getCardValue() {
@@ -64,23 +67,26 @@ public class Card extends JPanel{
 	
 	//get the appropriate image path wether it is revealed or not
 	public String getImagePath() {
-		if(revealed = true) {
+		if(this.revealed == true) {
 		return this.imagePath;
 		} else {
-		return "src/images/back.png";	
+			return getFaceDown();
 		}
+	}
+	
+	public String getFaceDown() {
+		return "/images/back.png";	
 	}
 	
 	public Image generateCard(String imagePath) {
 		try {
-			this.cardImage = ImageIO.read(getClass().getResource(imagePath));
+			this.cardImage = ImageIO.read(getClass().getResource(getImagePath()));
 			this.newImage = cardImage.getScaledInstance(85, 119, Image.SCALE_FAST);
 			repaint();
-			return newImage;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return newImage;
 		}
+		return newImage;
 	}
 	
 	public Image returnCardImage() {

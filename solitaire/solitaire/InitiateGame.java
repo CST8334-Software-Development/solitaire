@@ -128,7 +128,7 @@ public class InitiateGame {
 		// The boolean revealed set to true indicate to swing that the card should be
 		// shown
 		for (TableauPile tableauPile : tableauPiles) {
-			tableauPile.top().setRevealed();
+			tableauPile.tail().setRevealed();
 		}
 		
 		wastePile = new WastePile();
@@ -308,13 +308,14 @@ public class InitiateGame {
 
 	public JPanel putTableauPile(ArrayList<TableauPile> pile, int pileNumber, Point myPoint) {
 		this.tableauPiles = pile;
-
 		System.out.println(getPiles().size());
 		ArrayList<Card_Graphics> myList = new ArrayList<>();
 		panel1.setLayout(null);
 		Card_Graphics graphics = null; // Lazy initialization
 		for (int card1 = 0; card1 < tableauPiles.get(pileNumber).getActualSize(); card1++, myPoint.y += 30) {
 			Border b2 = new LineBorder(Color.BLACK, 1);
+			System.out.println(tableauPiles.get(pileNumber).getCard(card1).getStatus());
+			System.out.println(tableauPiles.get(pileNumber).getCard(card1).getImagePath());
 			graphics = new Card_Graphics(myPoint.x, myPoint.y, tableauPiles.get(pileNumber).getCard(card1)
 					.generateCard(tableauPiles.get(pileNumber).getCard(card1).getImagePath()));
 			graphics.setBorder(b2); // sets border to each graphic
@@ -323,18 +324,14 @@ public class InitiateGame {
 			 * When clicking on the card, it will generate a card in a different location.
 			 * It will remove the current uppermost card from the view.
 			 */
-			graphics.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mousePressed(MouseEvent e) {
-					
-				}
-			});
 			myList.add(graphics); // adds each card to panel
 			for (int i1 = 0; i1 < myList.size(); i1++) {
 				panel1.add(myList.get(i1));
 				panel1.repaint();
 			}
-		}
+		
+	}
+
 		return panel1;
 	}
 

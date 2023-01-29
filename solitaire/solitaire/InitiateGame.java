@@ -130,9 +130,9 @@ public class InitiateGame {
 		for (TableauPile tableauPile : tableauPiles) {
 			tableauPile.top().setRevealed();
 		}
-
+		
 		wastePile = new WastePile();
-		stockPile = new StockPile();
+
 	}
 
 	public ArrayList<TableauPile> getPiles() {
@@ -206,17 +206,16 @@ public class InitiateGame {
 
 	}
 
-	CardPile pile;
 
 	public JPanel putPiles(CardPile pile, Point myPoint) {
-		this.pile = pile;
+		this.stockPile = (StockPile) pile;
 		ArrayList<Card_Graphics> myList = new ArrayList<>();
 		panel1.setLayout(null);
 		Card_Graphics graphics = null; // Lazy initialization
-		for (int card1 = 0; card1 < pile.getActualSize(); card1++, myPoint.y += 30) {
+		for (int card1 = 0; card1 < stockPile.getActualSize(); card1++, myPoint.x += 2) {
 			Border b2 = new LineBorder(Color.BLACK, 1);
 			graphics = new Card_Graphics(myPoint.x, myPoint.y,
-					pile.getCard(card1).generateCard(pile.getCard(card1).getImagePath()));
+					stockPile.getCard(card1).generateCard(stockPile.getCard(card1).getImagePath()));
 			graphics.setBorder(b2); // sets border to each graphic
 			graphics.setSize(85, 119); // set size method
 			/*
@@ -238,6 +237,39 @@ public class InitiateGame {
 		return panel1;
 	}
 
+
+
+	public JPanel putPiles1(CardPile pile, Point myPoint) {
+		this.wastePile = (WastePile) pile;
+		ArrayList<Card_Graphics> myList = new ArrayList<>();
+		panel1.setLayout(null);
+		Card_Graphics graphics = null; // Lazy initialization
+		for (int card1 = 0; card1 < wastePile.getActualSize(); card1++, myPoint.y += 2) {
+			Border b2 = new LineBorder(Color.BLACK, 1);
+			graphics = new Card_Graphics(myPoint.x, myPoint.y,
+					wastePile.getCard(card1).generateCard(wastePile.getCard(card1).getImagePath()));
+			graphics.setBorder(b2); // sets border to each graphic
+			graphics.setSize(85, 119); // set size method
+			/*
+			 * When clicking on the card, it will generate a card in a different location.
+			 * It will remove the current uppermost card from the view.
+			 */
+			graphics.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+				}
+			});
+			myList.add(graphics); // adds each card to panel
+			for (int i1 = 0; i1 < myList.size(); i1++) {
+				panel1.add(myList.get(i1));
+				panel1.repaint();
+			}
+		}
+
+		return panel1;
+	}
+	
+	
 	public JPanel putFoundationPile(ArrayList<FoundationPile> pile, int pileNumber, Point myPoint) {
 		this.foundationPiles = pile;
 
@@ -267,8 +299,10 @@ public class InitiateGame {
 				panel1.repaint();
 			}
 		}
-		}
 		return panel1;
+	} else {
+		return panel1;
+	}
 	}
 		
 
@@ -313,7 +347,7 @@ public class InitiateGame {
 	// TO-DO:
 	private void drawWastePile() {
 		// draw at
-		panel1 = putPiles(wastePile, new Point(DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP));
+		panel1 = putPiles1(wastePile, new Point(DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP));
 	}
 
 	// TO-DO:

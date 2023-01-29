@@ -245,10 +245,11 @@ public class InitiateGame {
 		ArrayList<Card_Graphics> myList = new ArrayList<>();
 		panel1.setLayout(null);
 		Card_Graphics graphics = null; // Lazy initialization
-		for (int card1 = 0; card1 < tableauPiles.get(pileNumber).getActualSize(); card1++, myPoint.y += 2) {
+		if(foundationPiles != null) {
+		for (int card1 = 0; card1 < foundationPiles.get(pileNumber).getActualSize(); card1++, myPoint.y += 2) {
 			Border b2 = new LineBorder(Color.BLACK, 1);
-			graphics = new Card_Graphics(myPoint.x, myPoint.y, tableauPiles.get(pileNumber).getCard(card1)
-					.generateCard(tableauPiles.get(pileNumber).getCard(card1).getImagePath()));
+			graphics = new Card_Graphics(myPoint.x, myPoint.y, foundationPiles.get(pileNumber).getCard(card1)
+					.generateCard(foundationPiles.get(pileNumber).getCard(card1).getImagePath()));
 			graphics.setBorder(b2); // sets border to each graphic
 			graphics.setSize(85, 119); // set size method
 			/*
@@ -266,8 +267,10 @@ public class InitiateGame {
 				panel1.repaint();
 			}
 		}
+		}
 		return panel1;
 	}
+		
 
 	public JPanel putTableauPile(ArrayList<TableauPile> pile, int pileNumber, Point myPoint) {
 		this.tableauPiles = pile;
@@ -289,6 +292,7 @@ public class InitiateGame {
 			graphics.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
+					
 				}
 			});
 			myList.add(graphics); // adds each card to panel

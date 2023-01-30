@@ -27,3 +27,4 @@ public class FoundationPile extends CardPile{
 		return false;
 	}
 }
+

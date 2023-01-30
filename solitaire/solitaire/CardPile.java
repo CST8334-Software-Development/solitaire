@@ -5,10 +5,14 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+public class CardPile extends JPanel {
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class CardPile extends JComponent {
+
 
 	private static final long serialVersionUID = 1L;
 	protected ArrayList<Card> cards;
@@ -82,6 +86,9 @@ public class CardPile extends JComponent {
 		return new Dimension(Card.CARD_WIDTH,Card.HEIGHT);
 	}
 
+	public boolean canPutOnTop() {
+		return false;
+	}
 	public boolean canPutOnTop() {
 		return false;
 	}

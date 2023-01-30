@@ -3,8 +3,11 @@ package solitaire;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -62,19 +65,23 @@ public class CardPile extends JComponent {
 	public int getYCoord() {
 		return x;
 	}
-	
+	private String getBlankImage() {
+		return "/images/blank.png";
+	}
 	//draw the card pile
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (getActualSize()>0)
-			if (top().getCardImage() != null) {
-				g.drawImage(top().getCardImage(), x, y, this);
+		if (getActualSize()>0 && top().getCardImage() != null)
+			top().paintComponent(g);
+		else {
+			BufferedImage cardImage;
+			try {
+				cardImage = ImageIO.read(getClass().getResource(getBlankImage()));
+				g.drawImage(cardImage, x, y,Card.CARD_WIDTH,Card.CARD_HEIGHT, this);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			else
-				g.drawString("new string",x,y);
-		else
-			g.drawString("new string",x,y);
-		this.setSize(getPreferredSize());
+		}
 	}
 	
 	@Override

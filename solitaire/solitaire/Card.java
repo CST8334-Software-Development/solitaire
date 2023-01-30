@@ -2,10 +2,8 @@ package solitaire;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -22,34 +20,53 @@ public class Card extends JPanel{
 	final public static int CARD_HEIGHT=120;
 	final public static int CARD_WIDTH=85;
 	
-	private boolean revealed;
+	private boolean isFaceUp;
 	private int value;
 	private int suit;
-	private String imagePath;
 	private int x=0;		//x position
 	private int y=0;		//y position
 
 	private BufferedImage cardImage;
-	private Image newImage;
 
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
-	public Card(int value, int suit, String imagePath) {
-		this.revealed = false;
+	public Card(int value, int suit) {
+		this.isFaceUp = false;
 		this.value = value;
 		this.suit = suit;
-		this.imagePath = imagePath;
-		getCardImage();
+	}
+	public String getImagePath() {
+		if (this.isFaceUp) return getFaceImagePath();
+		return getBackImagePath();
+	}
+	// get face image path
+	private String getFaceImagePath() {
+		switch(this.suit) {
+			case Card.SUIT_CLUB:
+				return "/images/club_"+Integer.toString(this.value)+"_dog.png";
+			case Card.SUIT_DIAMOND:
+				return "/images/DIAMOND_"+Integer.toString(this.value)+"_dog.png";
+			case Card.SUIT_HEART:
+				return  "/images/HEART_"+Integer.toString(this.value)+"_dog.png";
+			case Card.SUIT_SPADE:
+				return "/images/SPADE_"+Integer.toString(this.value)+"_dog.png";
+		}	
+		return "/images/blank.png";
+	}
+	
+	// get back image path
+	public String getBackImagePath() {
+		return "/images/back.png";
 	}
 	
 	//reveal the face of the card
 	public void setRevealed(){
-		this.revealed = true;
+		this.isFaceUp = true;
 	}
 
 	//for now, we will assume that once a card is revealed, it stays revealed
 	public void setFaceDown() {
-		this.revealed = false;
+		this.isFaceUp = false;
 	}
 	//get the card value
 	public int getCardValue() {
@@ -61,16 +78,10 @@ public class Card extends JPanel{
 	}
 
 	//get the statut (revealed or not)
-	public Boolean getStatus() {
-		return this.revealed;
+	public Boolean isFaceUp() {
+		return this.isFaceUp;
 	}
-	
-	//get the appropriate image path wether it is revealed or not
-	public String getImagePath() {
-		if(revealed == true) return this.imagePath;
-		return "src/images/back.png";	
-	}
-	
+		
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -83,10 +94,9 @@ public class Card extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-        if (cardImage != null) {
-            Dimension dim = getPreferredSize();
-            g.drawImage(cardImage, x, y, dim.width, dim.height, this);
-        }
+	    if (cardImage == null) cardImage = getCardImage();
+        Dimension dim = getPreferredSize();
+        g.drawImage(cardImage, x, y, dim.width, dim.height, this);
 	}
 	
 	@Override
@@ -95,15 +105,12 @@ public class Card extends JPanel{
 	}
 
 	public BufferedImage getCardImage() {
-		if (this.cardImage == null) {
-			try {
-				this.cardImage = ImageIO.read(getClass().getResource(imagePath));
-//				this.newImage = cardImage.getScaledInstance(CARD_WIDTH, CARD_HEIGHT, Image.SCALE_FAST);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			this.cardImage = ImageIO.read(getClass().getResource(getImagePath()));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return cardImage;
+		return this.cardImage;
 	}
 	
 	// get card color is red?

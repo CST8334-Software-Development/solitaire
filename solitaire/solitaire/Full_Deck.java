@@ -16,22 +16,22 @@ public class Full_Deck {
 		
 		//create the Clubs suit
 		for (int i=1; i<14; i++) {
-			cardArray[i-1] = new Card(i,Card.SUIT_CLUB,"/images/club_"+Integer.toString(i)+"_dog.png");
+			cardArray[i-1] = new Card(i,Card.SUIT_CLUB);
 		}
 		
 		//create the Diamonds suit
 		for (int i=1; i<14; i++) {
-			cardArray[i+12] = new Card(i,Card.SUIT_SPADE,"/images/diamond_"+Integer.toString(i)+"_dog.png");
+			cardArray[i+12] = new Card(i,Card.SUIT_SPADE);
 		}
 		
 		//create the Hearts suit
 		for (int i=1; i<14; i++) {
-			cardArray[i+25] = new Card(i,Card.SUIT_HEART,"/images/heart_"+Integer.toString(i)+"_dog.png");
+			cardArray[i+25] = new Card(i,Card.SUIT_HEART);
 		}
 		
 		//create the Spades suit
 		for (int i=1; i<14; i++) {
-			cardArray[i+38] = new Card(i,Card.SUIT_SPADE,"/images/spade_"+Integer.toString(i)+"_dog.png");
+			cardArray[i+38] = new Card(i,Card.SUIT_SPADE);
 		}
 	}
 	

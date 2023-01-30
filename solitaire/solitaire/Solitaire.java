@@ -250,21 +250,38 @@ public class Solitaire implements PropertyChangeListener {
 	
 	private void handleStockPileMouseClickEvent() {
 		System.out.println(STOCK_PILE_MOUSE_CLICK_EVENT);
-		// if size>0
-		// if top card face is down,turn it up,repaint()
-		// else remove the top card to waste pile
-		// show the next card
+		if (this.stockPile.getActualSize()>0) {
+			Card aCard = stockPile.top();
+			if (!aCard.isFaceUp()) {
+				aCard.setRevealed();
+				stockPile.repaint();
+			}
+			else {
+				// To do
+				// move the top card to waste pile
+				// show the next card
+			}
+		}
+		else {
+			// To do
+			// if empty, 
+			//	if game is not over 
+			//		get all cards from waste pile
+			//	else
+			//		game over
+		}
+
 	}
 	private void handleWastePileMouseClickEvent() {
 		System.out.println(WASTE_PILE_MOUSE_CLICK_EVENT);
+		// To do
 	}
 	private void handleTableauPileMouseClickEvent() {
 		System.out.println(TABLEAU_PILE_MOUSE_CLICK_EVENT);
+		// To do
 	}
 	private void handleFoundationPileMouseClickEvent() {
 		System.out.println(FOUNDATION_PILE_MOUSE_CLICK_EVENT);
-	}
-	private void handleCardPileMouseClickEvent(Card card) {
-		System.out.println(CARD_MOUSE_CLICK_EVENT);
+		// To do
 	}
 }

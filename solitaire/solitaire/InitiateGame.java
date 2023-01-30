@@ -14,6 +14,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.util.ArrayList;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -130,6 +135,7 @@ public class InitiateGame {
 		for (TableauPile tableauPile : tableauPiles) {
 			tableauPile.tail().setRevealed();
 		}
+
 		
 		wastePile = new WastePile();
 
@@ -303,9 +309,8 @@ public class InitiateGame {
 	} else {
 		return panel1;
 	}
-	}
-		
 
+		
 	public JPanel putTableauPile(ArrayList<TableauPile> pile, int pileNumber, Point myPoint) {
 		this.tableauPiles = pile;
 		System.out.println(getPiles().size());
@@ -396,7 +401,6 @@ public class InitiateGame {
 			return null;
 
 	}
-
 	// get the foundation pile by index
 	public FoundationPile getFoundationPileByIndex(int index) {
 		if (index < NUM_FOUNDATION_PILE && index >= 0)
@@ -408,7 +412,6 @@ public class InitiateGame {
 	public StockPile getStockPile() {
 		return this.stockPile;
 	}
-
 	// get the wastePile
 	public WastePile getWastePile() {
 		return this.wastePile;

@@ -16,7 +16,7 @@ public class Full_Deck {
 		
 		//create the Clubs suit
 		for (int i=1; i<14; i++) {
-			cardArray[i-1] = new Card(i,Card.SUIT_CLUB,"/images/club_" +Integer.toString(i)+"_dog.png");
+			cardArray[i-1] = new Card(i,Card.SUIT_CLUB,"/images/club_"+Integer.toString(i)+"_dog.png");
 		}
 		
 		//create the Diamonds suit

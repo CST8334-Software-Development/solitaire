@@ -1,5 +1,6 @@
 package solitaire;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -9,10 +10,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+
 public class Card extends JPanel{
 
-	public static int CARD_HEIGHT=120;
-	public static int CARD_WIDTH=85;
+	private static final long serialVersionUID = 1L;
+	final public static int SUIT_HEART = 0;
+	final public static int SUIT_SPADE = 1;
+	final public static int SUIT_DIAMOND = 2;
+	final public static int SUIT_CLUB = 3;
+	
+	final public static int CARD_HEIGHT=120;
+	final public static int CARD_WIDTH=85;
 	
 
 	private static final long serialVersionUID = 1L;
@@ -27,16 +35,18 @@ public class Card extends JPanel{
 	private String imagePath;
 	private int x=0;		//x position
 	private int y=0;		//y position
+
 	private BufferedImage cardImage;
 	private Image newImage;
-	
+
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
 	public Card(int value, int suitClub, String imagePath) {
-		this.revealed = revealed;
+		this.revealed = false;
 		this.value = value;
 		this.suit = suitClub;
 		this.imagePath = imagePath;
+		getCardImage();
 	}
 	
 	public Card() {
@@ -87,10 +97,30 @@ public class Card extends JPanel{
 			e.printStackTrace();
 		}
 		return newImage;
+
 	}
 	
-	public Image returnCardImage() {
-		return newImage;
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Point getPosition() {
+		return new Point(x,y);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+        if (cardImage != null) {
+            Dimension dim = getPreferredSize();
+            g.drawImage(cardImage, x, y, dim.width, dim.height, this);
+        }
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(CARD_WIDTH, CARD_HEIGHT);
 	}
 	
 
@@ -100,6 +130,23 @@ public class Card extends JPanel{
 		return false;
 	}
 
+	public BufferedImage getCardImage() {
+		if (this.cardImage == null) {
+			try {
+				this.cardImage = ImageIO.read(getClass().getResource(imagePath));
+//				this.newImage = cardImage.getScaledInstance(CARD_WIDTH, CARD_HEIGHT, Image.SCALE_FAST);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return cardImage;
 	}
+	
+	// get card color is red?
+	public boolean isCardRed() {
+		if (suit==0 || suit==2) return true;
+		return false;
+	}
+}
 
 

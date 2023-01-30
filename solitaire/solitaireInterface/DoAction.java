@@ -48,6 +48,7 @@ public class DoAction {
 		Deck.Shuffle_Deck();
 		// put 1 card in Tableau 1
 		tableauPiles = new ArrayList<TableauPile>();
+
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myFrame.setResizable(false);
 		myFrame.setSize(new Dimension(800, 600));
@@ -137,6 +138,7 @@ public class DoAction {
 					// TABLE7 draw at
 					panel1 = putTableauPile(tableauPiles, 6,
 					new Point(7 * DEFAULT_GAP + 6 * Card.CARD_WIDTH, DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP));
+
 				}
 			}
 		});

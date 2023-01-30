@@ -1,5 +1,6 @@
 package solitaire;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -7,6 +8,11 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class CardPile extends JPanel {
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+
 
 	private static final long serialVersionUID = 1L;
 	protected ArrayList<Card> cards;
@@ -62,8 +68,26 @@ public class CardPile extends JPanel {
 	}
 	
 	//draw the card pile
-	public void draw(Graphics g) {
-		
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (getActualSize()>0)
+			if (top().getCardImage() != null) {
+				g.drawImage(top().getCardImage(), x, y, this);
+			}
+			else
+				g.drawString("new string",x,y);
+		else
+			g.drawString("new string",x,y);
+		this.setSize(getPreferredSize());
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(Card.CARD_WIDTH,Card.HEIGHT);
+	}
+
+	public boolean canPutOnTop() {
+		return false;
 	}
 	public boolean canPutOnTop() {
 		return false;

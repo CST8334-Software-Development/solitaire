@@ -1,10 +1,22 @@
 package solitaire;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeSupport;
+
 public class FoundationPile extends CardPile{
 	
 	private int suit;// only the same suit card can be put on the foundation
+	private PropertyChangeSupport propertyChangeSupport;
+
 	public FoundationPile() {
 		super();
+		propertyChangeSupport = new PropertyChangeSupport(this);
+		this.addMouseListener(new MouseAdapter() { 
+			public void mousePressed(MouseEvent e) {
+				firePropertyChange(Solitaire.FOUNDATION_PILE_MOUSE_CLICK_EVENT,null,this);
+			}
+		});
 		suit = -1;
 	}
 	public void setSuit(int suit) {

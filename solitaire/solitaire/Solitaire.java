@@ -7,9 +7,17 @@ import javax.swing.JMenuItem;
 import java.awt.Color;
 
 import java.awt.EventQueue;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-public class Solitaire {
+public class Solitaire implements PropertyChangeListener {
+	
+	public final static String STOCK_PILE_MOUSE_CLICK_EVENT="STOCK PILE CLICK";
+	public final static String TABLEAU_PILE_MOUSE_CLICK_EVENT="TABLEAU PILE CLICK";
+	public final static String FOUNDATION_PILE_MOUSE_CLICK_EVENT="FOUNDATION PILE CLICK";
+	public final static String WASTE_PILE_MOUSE_CLICK_EVENT="WASTE PILE CLICK";
+	public final static String CARD_MOUSE_CLICK_EVENT="CARD CLICK";
 	
 	final static int TABLE_HEIGHT = 600;
 	final static int TABLE_WIDTH = 800;
@@ -17,6 +25,9 @@ public class Solitaire {
 	final static int NUM_FOUNDATION_PILE = 4;
 	final static int NUM_TABLEAU_PILE = 7;
 	final static int BIG_GAP = TABLE_WIDTH - 6 * Card.CARD_WIDTH -7* DEFAULT_GAP;	
+	
+
+
 	// Create a new full deck object which will contain an array of Card objects
 	private Full_Deck Deck;
 	private ArrayList<TableauPile> tableauPiles;
@@ -45,13 +56,20 @@ public class Solitaire {
 		for (int i = 0; i < 24; i++) {
 			stockPile.push(Deck.getCard(i));
 		}
+		stockPile.addPropertyChangeListener(this);
+		
 		wastePile = new WastePile();
+		wastePile.addPropertyChangeListener(this);
 
 		foundationPiles = new ArrayList<FoundationPile>();
 		FoundationPile pile1 = new FoundationPile();
+		pile1.addPropertyChangeListener(this);
 		FoundationPile pile2 = new FoundationPile();
+		pile2.addPropertyChangeListener(this);
 		FoundationPile pile3 = new FoundationPile();
+		pile3.addPropertyChangeListener(this);
 		FoundationPile pile4 = new FoundationPile();
+		pile4.addPropertyChangeListener(this);
 		foundationPiles.add(pile1);
 		foundationPiles.add(pile2);
 		foundationPiles.add(pile3);
@@ -65,6 +83,7 @@ public class Solitaire {
 		for (int i = 1; i <= 1; i++) {
 			tableauPile1.push(Deck.getCard(i + 23));
 		}
+		tableauPile1.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile1);
 
 		// put 2 cards in Tableau 2
@@ -72,6 +91,7 @@ public class Solitaire {
 		for (int i = 1; i < 3; i++) {
 			tableauPile2.push(Deck.getCard(i + 24));
 		}
+		tableauPile2.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile2);
 
 		// put 3 cards in Tableau 3
@@ -79,6 +99,7 @@ public class Solitaire {
 		for (int i = 1; i < 4; i++) {
 			tableauPile3.push(Deck.getCard(i + 26));
 		}
+		tableauPile3.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile3);
 
 		// put 4 cards in Tableau 4
@@ -86,6 +107,7 @@ public class Solitaire {
 		for (int i = 1; i < 5; i++) {
 			tableauPile4.push(Deck.getCard(i + 29));
 		}
+		tableauPile4.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile4);
 
 		// put 5 cards in Tableau 5
@@ -93,6 +115,7 @@ public class Solitaire {
 		for (int i = 1; i < 6; i++) {
 			tableauPile5.push(Deck.getCard(i + 33));
 		}
+		tableauPile5.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile5);
 
 		// put 6 cards in Tableau 6
@@ -100,6 +123,7 @@ public class Solitaire {
 		for (int i = 1; i < 7; i++) {
 			tableauPile6.push(Deck.getCard(i + 38));
 		}
+		tableauPile6.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile6);
 
 		// put 7 cards in Tableau 7
@@ -107,6 +131,7 @@ public class Solitaire {
 		for (int i = 1; i < 8; i++) {
 			tableauPile7.push(Deck.getCard(i + 44));
 		}
+		tableauPile7.addPropertyChangeListener(this);
 		tableauPiles.add(tableauPile7);
 
 		// set the last card of the tableau (last index) to a status "revealed" (boolean
@@ -195,5 +220,51 @@ public class Solitaire {
 			newGame.startNewGame();
 		 });
 		
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		String propertyName = evt.getPropertyName();
+		System.out.println(propertyName);
+		
+		if (propertyName.equals(STOCK_PILE_MOUSE_CLICK_EVENT)){
+			handleStockPileMouseClickEvent();
+		}
+		
+		if (propertyName.equals(TABLEAU_PILE_MOUSE_CLICK_EVENT)){
+			
+		}
+		
+		if (propertyName.equals(FOUNDATION_PILE_MOUSE_CLICK_EVENT)){
+			
+		}
+		
+		if (propertyName.equals(CARD_MOUSE_CLICK_EVENT)){
+			
+		}
+		if (propertyName.equals(WASTE_PILE_MOUSE_CLICK_EVENT)){
+					
+		}
+	}
+	
+	private void handleStockPileMouseClickEvent() {
+		System.out.println(STOCK_PILE_MOUSE_CLICK_EVENT);
+		// if size>0
+		// if top card face is down,turn it up,repaint()
+		// else remove the top card to waste pile
+		// show the next card
+	}
+	private void handleWastePileMouseClickEvent() {
+		System.out.println(WASTE_PILE_MOUSE_CLICK_EVENT);
+	}
+	private void handleTableauPileMouseClickEvent() {
+		System.out.println(TABLEAU_PILE_MOUSE_CLICK_EVENT);
+	}
+	private void handleFoundationPileMouseClickEvent() {
+		System.out.println(FOUNDATION_PILE_MOUSE_CLICK_EVENT);
+	}
+	private void handleCardPileMouseClickEvent(Card card) {
+		System.out.println(CARD_MOUSE_CLICK_EVENT);
 	}
 }

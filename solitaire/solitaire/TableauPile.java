@@ -2,14 +2,24 @@ package solitaire;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeSupport;
 
 public class TableauPile extends CardPile{
 	
 	//constructor (create a tableau with specified amount of cards)
 	public static final int CASCADE_GAP=15;
+	private PropertyChangeSupport propertyChangeSupport;
+
 	public TableauPile() {
 		super();
+		propertyChangeSupport = new PropertyChangeSupport(this);
+		this.addMouseListener(new MouseAdapter() { 
+			public void mousePressed(MouseEvent e) {
+				firePropertyChange(Solitaire.TABLEAU_PILE_MOUSE_CLICK_EVENT,this,this);
+			}
+		});
 	}
 	
 	public boolean canPutOnTop(Card aCard) {

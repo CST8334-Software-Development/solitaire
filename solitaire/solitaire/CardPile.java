@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class CardPile extends JComponent {
 	protected ArrayList<Card> cards;
 	private int x=0;		//x position
 	private int y=0;		//y position
-	
+
 	public CardPile() {
 		cards = new ArrayList<Card>();
 	}
@@ -89,7 +90,7 @@ public class CardPile extends JComponent {
 		return new Dimension(Card.CARD_WIDTH,Card.HEIGHT);
 	}
 
-	public boolean canPutOnTop() {
+	public boolean canPutOnTop(Card aCard) {
 		return false;
 	}
 }

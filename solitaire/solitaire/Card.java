@@ -3,7 +3,10 @@ package solitaire;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -27,6 +30,7 @@ public class Card extends JPanel{
 	private int y=0;		//y position
 
 	private BufferedImage cardImage;
+	private PropertyChangeSupport propertyChangeSupport;
 
 	//card constructor
 	//We will initially make all cards face down. We will reveal once we know their position. 
@@ -34,6 +38,13 @@ public class Card extends JPanel{
 		this.isFaceUp = false;
 		this.value = value;
 		this.suit = suit;
+		propertyChangeSupport = new PropertyChangeSupport(this);
+		this.addMouseListener(new MouseAdapter() { 
+			public void mousePressed(MouseEvent e) {
+				firePropertyChange(Solitaire.CARD_MOUSE_CLICK_EVENT,this,this);
+			}
+		});
+		
 	}
 	public String getImagePath() {
 		if (this.isFaceUp) return getFaceImagePath();
@@ -55,7 +66,7 @@ public class Card extends JPanel{
 	}
 	
 	// get back image path
-	public String getBackImagePath() {
+	private String getBackImagePath() {
 		return "/images/back.png";
 	}
 	

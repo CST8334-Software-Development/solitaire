@@ -45,7 +45,7 @@ public class FoundationPile extends CardPile{
 			return true;
 		}
 		if (getActualSize()>0 && aCard.getCardSuit()==suit) {
-				if (top().getCardValue()== aCard.getCardValue()-1) return true;
+			if (top().getCardValue()== aCard.getCardValue()-1) return true;
 		}
 		return false;
 	}
@@ -53,7 +53,6 @@ public class FoundationPile extends CardPile{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		
 		for (int i = 0;i<this.getActualSize();i++) {
 			Card aCard = cards.get(i);
 			aCard.setPosition(0, 0);

@@ -35,6 +35,7 @@ public class Solitaire implements PropertyChangeListener {
 	private ArrayList<FoundationPile> foundationPiles;
 	private static Solitaire newGame;
 	private JFrame mainFrame;
+	
 	private CardPile currentClickedPile;
 	private int mouseClickCount=0;
 	
@@ -42,6 +43,9 @@ public class Solitaire implements PropertyChangeListener {
 		
 		initAllCardsForGame();
 		initAllPilesOnScreen();
+		
+		currentClickedPile = null;
+		mouseClickCount=0;
 	}
 	
 	public void initAllCardsForGame() {
@@ -286,14 +290,13 @@ public class Solitaire implements PropertyChangeListener {
 		// To do
 	}
 	private void handleTableauPileMouseClickEvent(TableauPile pile) {
-		System.out.println(TABLEAU_PILE_MOUSE_CLICK_EVENT);
 		// To do
-		
 		mouseClickCount+=1;
 		
-		if (mouseClickCount==1) currentClickedPile = pile;
+		if (mouseClickCount==1) {
+			currentClickedPile = pile;
+		}
 		else if (this.currentClickedPile!=pile){
-			// 
 			moveCard(this.currentClickedPile,pile);
 			
 			Rectangle rt = pile.getBounds();
@@ -302,23 +305,35 @@ public class Solitaire implements PropertyChangeListener {
 			mouseClickCount = 0;
 		}
 	}
-	private void handleFoundationPileMouseClickEvent(FoundationPile pile) {
-		System.out.println(FOUNDATION_PILE_MOUSE_CLICK_EVENT);
+	private void handleFoundationPileMouseClickEvent(FoundationPile pile) {		
 		// To do
-		if (this.currentClickedPile==null) currentClickedPile = pile;
-		else if (this.currentClickedPile!=pile) {
-			moveCard(this.currentClickedPile,pile);
-		}
+			mouseClickCount+=1;
+			
+			if (mouseClickCount==1) {
+				currentClickedPile = pile;
+			}
+			else if (this.currentClickedPile!=pile){
+				// 
+				moveCard(this.currentClickedPile,pile);
+				mouseClickCount = 0;
+			}
+		
 	}
 	private void moveCard(CardPile fromPile,CardPile toPile) {
-		Card fromCard = this.currentClickedPile.top();
-		if (toPile.canPutOnTop(fromCard)) {
-			toPile.push(fromCard);
-			fromPile.pop();
-			if (fromPile.getActualSize()>0) 
-				fromPile.top().setRevealed();
-			toPile.repaint();
-			fromPile.repaint();
+		if (fromPile.getActualSize()>0) {
+			System.out.println("Moving Card:" + fromPile.top().toString());
+			Card fromCard = this.currentClickedPile.top();
+			if (fromCard.isFaceUp()) {
+				if (toPile.canPutOnTop(fromCard)) {
+					toPile.push(fromCard);
+					fromPile.pop();
+					if (fromPile.getActualSize()>0) {
+						fromPile.top().setRevealed();
+					}
+				}
+				fromPile.repaint();
+				toPile.repaint();
+			}
 		}
-	}
+	} 
 }

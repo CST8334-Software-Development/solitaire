@@ -129,6 +129,9 @@ public class Card extends JPanel{
 		if (suit==0 || suit==2) return true;
 		return false;
 	}
+	public String toString() {
+		return "Suit:"+ this.getCardSuit() + " | Value:" + this.getCardValue()+ " | faceUP:"+this.isFaceUp;
+	}
 }
 
 

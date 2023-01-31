@@ -1,8 +1,13 @@
 package solitaire;
 
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeSupport;
+
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 
 public class StockPile extends CardPile {
 	private PropertyChangeSupport propertyChangeSupport;
@@ -14,6 +19,9 @@ public class StockPile extends CardPile {
 		this.addMouseListener(new MouseAdapter() { 
 			public void mousePressed(MouseEvent e) {
 				firePropertyChange(Solitaire.STOCK_PILE_MOUSE_CLICK_EVENT,null,null);
+			}
+			public void mouseReleased(MouseEvent e) {
+
 			}
 		});
 	}

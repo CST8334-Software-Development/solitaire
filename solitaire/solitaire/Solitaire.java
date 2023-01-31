@@ -7,6 +7,7 @@ import javax.swing.JMenuItem;
 import java.awt.Color;
 
 import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -26,8 +27,6 @@ public class Solitaire implements PropertyChangeListener {
 	final static int NUM_TABLEAU_PILE = 7;
 	final static int BIG_GAP = TABLE_WIDTH - 6 * Card.CARD_WIDTH -7* DEFAULT_GAP;	
 	
-
-
 	// Create a new full deck object which will contain an array of Card objects
 	private Full_Deck Deck;
 	private ArrayList<TableauPile> tableauPiles;
@@ -36,6 +35,8 @@ public class Solitaire implements PropertyChangeListener {
 	private ArrayList<FoundationPile> foundationPiles;
 	private static Solitaire newGame;
 	private JFrame mainFrame;
+	private CardPile currentClickedPile;
+	private int mouseClickCount=0;
 	
 	public void startNewGame() {
 		
@@ -233,11 +234,13 @@ public class Solitaire implements PropertyChangeListener {
 		}
 		
 		if (propertyName.equals(TABLEAU_PILE_MOUSE_CLICK_EVENT)){
-			
-		}
+			TableauPile pile = (TableauPile)evt.getNewValue();
+			handleTableauPileMouseClickEvent(pile);
+		};
 		
 		if (propertyName.equals(FOUNDATION_PILE_MOUSE_CLICK_EVENT)){
-			
+			FoundationPile pile = (FoundationPile)evt.getNewValue();
+			handleFoundationPileMouseClickEvent(pile);
 		}
 		
 		if (propertyName.equals(CARD_MOUSE_CLICK_EVENT)){
@@ -259,6 +262,12 @@ public class Solitaire implements PropertyChangeListener {
 			else {
 				// To do
 				// move the top card to waste pile
+				if (stockPile.getActualSize()>0) {
+					wastePile.push(stockPile.pop());				
+					stockPile.top().setRevealed();
+				}				
+				wastePile.repaint();
+				stockPile.repaint();
 				// show the next card
 			}
 		}
@@ -276,12 +285,40 @@ public class Solitaire implements PropertyChangeListener {
 		System.out.println(WASTE_PILE_MOUSE_CLICK_EVENT);
 		// To do
 	}
-	private void handleTableauPileMouseClickEvent() {
+	private void handleTableauPileMouseClickEvent(TableauPile pile) {
 		System.out.println(TABLEAU_PILE_MOUSE_CLICK_EVENT);
 		// To do
+		
+		mouseClickCount+=1;
+		
+		if (mouseClickCount==1) currentClickedPile = pile;
+		else if (this.currentClickedPile!=pile){
+			// 
+			moveCard(this.currentClickedPile,pile);
+			
+			Rectangle rt = pile.getBounds();
+			int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (pile.getActualSize()-1);
+			pile.setBounds(rt.x,rt.y,Card.CARD_WIDTH,newHeight);
+			mouseClickCount = 0;
+		}
 	}
-	private void handleFoundationPileMouseClickEvent() {
+	private void handleFoundationPileMouseClickEvent(FoundationPile pile) {
 		System.out.println(FOUNDATION_PILE_MOUSE_CLICK_EVENT);
 		// To do
+		if (this.currentClickedPile==null) currentClickedPile = pile;
+		else if (this.currentClickedPile!=pile) {
+			moveCard(this.currentClickedPile,pile);
+		}
+	}
+	private void moveCard(CardPile fromPile,CardPile toPile) {
+		Card fromCard = this.currentClickedPile.top();
+		if (toPile.canPutOnTop(fromCard)) {
+			toPile.push(fromCard);
+			fromPile.pop();
+			if (fromPile.getActualSize()>0) 
+				fromPile.top().setRevealed();
+			toPile.repaint();
+			fromPile.repaint();
+		}
 	}
 }

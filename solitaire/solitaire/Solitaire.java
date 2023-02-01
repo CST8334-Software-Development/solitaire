@@ -252,15 +252,27 @@ public class Solitaire implements PropertyChangeListener {
 		System.out.println(STOCK_PILE_MOUSE_CLICK_EVENT);
 		if (this.stockPile.getActualSize()>0) {
 			Card aCard = stockPile.top();
-			if (!aCard.isFaceUp()) {
+			/*if (!aCard.isFaceUp()) {
 				aCard.setRevealed();
 				stockPile.repaint();
 			}
-			else {
+			else {*/
 				// To do
 				// move the top card to waste pile
 				// show the next card
-			}
+				wastePile.push(aCard);
+				wastePile.top().setRevealed();
+				wastePile.repaint();
+				stockPile.pop();
+				if (stockPile.getActualSize()==0){
+					stockPile.repaint();
+				}
+				//stockPile.top().setRevealed();
+				//stockPile.repaint();
+				
+				//System.out.println(Integer.toString(stockPile.getActualSize()));
+				
+			//}
 		}
 		else {
 			// To do
@@ -269,6 +281,13 @@ public class Solitaire implements PropertyChangeListener {
 			//		get all cards from waste pile
 			//	else
 			//		game over
+			for(int i=wastePile.getActualSize()-1;i>=0;i--) {
+				wastePile.getCard(i).setFaceDown();
+				stockPile.push(wastePile.getCard(i));
+				wastePile.pop();
+			}
+			stockPile.repaint();
+			wastePile.repaint();
 		}
 
 	}

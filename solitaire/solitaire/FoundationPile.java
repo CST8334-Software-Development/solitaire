@@ -26,8 +26,9 @@ public class FoundationPile extends CardPile{
 			firePropertyChange(Solitaire.FOUNDATION_PILE_MOUSE_CLICK_EVENT,null,pile);
 		}
 	}
-	public void pop(Card aCard) {
-		super.pop();
+	
+	public void push(Card aCard) {
+		super.push(aCard);
 		this.suit = aCard.getCardSuit();
 	}
 	

@@ -69,6 +69,7 @@ public class CardPile extends JComponent {
 	private String getBlankImage() {
 		return "/images/blank.png";
 	}
+	
 	//draw the card pile
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

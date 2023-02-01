@@ -251,7 +251,7 @@ public class Solitaire implements PropertyChangeListener {
 			
 		}
 		if (propertyName.equals(WASTE_PILE_MOUSE_CLICK_EVENT)){
-					
+			handleWastePileMouseClickEvent(wastePile);		
 		}
 	}
 	
@@ -259,36 +259,40 @@ public class Solitaire implements PropertyChangeListener {
 		System.out.println(STOCK_PILE_MOUSE_CLICK_EVENT);
 		if (this.stockPile.getActualSize()>0) {
 			Card aCard = stockPile.top();
-			if (!aCard.isFaceUp()) {
-				aCard.setRevealed();
-				stockPile.repaint();
+			wastePile.push(aCard);
+			wastePile.top().setRevealed();
+			wastePile.repaint();
+			stockPile.pop();
+				if (stockPile.getActualSize()==0){
+					stockPile.repaint();
+				}		
+		} else {
+			for(int i=wastePile.getActualSize()-1;i>=0;i--) {
+				wastePile.getCard(i).setFaceDown();
+				stockPile.push(wastePile.getCard(i));
+				wastePile.pop();
 			}
-			else {
-				// To do
-				// move the top card to waste pile
-				if (stockPile.getActualSize()>0) {
-					wastePile.push(stockPile.pop());				
-					stockPile.top().setRevealed();
-				}				
-				wastePile.repaint();
-				stockPile.repaint();
-				// show the next card
-			}
+			stockPile.repaint();
+			wastePile.repaint();
 		}
-		else {
-			// To do
-			// if empty, 
-			//	if game is not over 
-			//		get all cards from waste pile
-			//	else
-			//		game over
-		}
-
 	}
-	private void handleWastePileMouseClickEvent() {
-		System.out.println(WASTE_PILE_MOUSE_CLICK_EVENT);
+	
+	private void handleWastePileMouseClickEvent(WastePile pile) {
+		//System.out.println(WASTE_PILE_MOUSE_CLICK_EVENT);
 		// To do
+		mouseClickCount+=1;
+		
+		if (mouseClickCount==1) {
+			currentClickedPile = pile;
+		}
+		else if (this.currentClickedPile!=pile){
+			// 
+			moveCard(this.currentClickedPile,pile);
+			mouseClickCount = 0;
+		}
+		
 	}
+	
 	private void handleTableauPileMouseClickEvent(TableauPile pile) {
 		// To do
 		mouseClickCount+=1;

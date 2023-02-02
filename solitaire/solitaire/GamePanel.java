@@ -12,8 +12,9 @@ import javax.swing.SwingUtilities;
 public class GamePanel {
 	final static int TABLE_HEIGHT = 600;
 	final static int TABLE_WIDTH = 800;
-	static Solitaire game = null;
+	private static Solitaire game = null;
 	private static JFrame mainFrame;
+	public static OurMenu menuBar;
 		
 		public static void main(String[] args) {
 			EventQueue.invokeLater(() ->
@@ -24,33 +25,22 @@ public class GamePanel {
 			 });
 		}
 		
+		static void initGame() {
+				mainFrame.remove(game);
+				mainFrame.revalidate();
+				createShow();
+				mainFrame.revalidate();
+				mainFrame.repaint();
+		}
+		
 		private static void createShow() {
-				
-				JMenuBar menuBar = new JMenuBar();
-				JMenu newGameMenu = new JMenu("Game");
-				JMenuItem newGameItem = new JMenuItem("New Game");
+				game = new Solitaire();
+				menuBar = new OurMenu();
 					mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					mainFrame.setSize(TABLE_WIDTH,TABLE_HEIGHT);
 					mainFrame.setResizable(false);
-
-					newGameItem.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							game = new Solitaire();
-							mainFrame.getContentPane().add(game);
-							mainFrame.setVisible(true);
-						}
-					});
-					JMenuItem exitItem = new JMenuItem("Exit");
-					exitItem.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							mainFrame.dispose();
-							System.exit(0);
-						}
-					});
-					newGameMenu.add(newGameItem);
-					newGameMenu.add(exitItem);
-					menuBar.add(newGameMenu);
 					mainFrame.setJMenuBar(menuBar);
+					mainFrame.add(game);
 					mainFrame.getContentPane().setBackground(Color.ORANGE);
 					mainFrame.setVisible(true);
 			 }

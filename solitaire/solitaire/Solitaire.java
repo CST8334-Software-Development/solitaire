@@ -22,13 +22,13 @@ public class Solitaire extends JPanel implements PropertyChangeListener {
 	public final static String FOUNDATION_PILE_MOUSE_CLICK_EVENT="FOUNDATION PILE CLICK";
 	public final static String WASTE_PILE_MOUSE_CLICK_EVENT="WASTE PILE CLICK";
 	public final static String CARD_MOUSE_CLICK_EVENT="CARD CLICK";
-	
 	final static int TABLE_HEIGHT = 600;
 	final static int TABLE_WIDTH = 800;
 	final static int DEFAULT_GAP = 20;
 	final static int NUM_FOUNDATION_PILE = 4;
 	final static int NUM_TABLEAU_PILE = 7;
 	final static int BIG_GAP = TABLE_WIDTH - 6 * Card.CARD_WIDTH -7* DEFAULT_GAP;	
+	
 	
 	// Create a new full deck object which will contain an array of Card objects
 	private Full_Deck Deck;
@@ -41,16 +41,19 @@ public class Solitaire extends JPanel implements PropertyChangeListener {
 	private int mouseClickCount=0;
 	
 	public Solitaire() {
+		
 		startNewGame();
 	}
 	
 	public void startNewGame() {
+
 		
 		initAllCardsForGame();
 		initAllPilesOnScreen();
 		currentClickedPile = null;
 		mouseClickCount=0;
 	}
+	
 	
 	public void initAllCardsForGame() {
 		Deck = new Full_Deck();
@@ -157,6 +160,7 @@ public class Solitaire extends JPanel implements PropertyChangeListener {
 		//2 draw waste pile
 		//3 draw foundation pile
 		//4 draw tableau pile
+		
 		drawStockPile(DEFAULT_GAP,DEFAULT_GAP);
 		drawWastePile(2*DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP);
 		drawFoundationPiles(2 * DEFAULT_GAP + 2 * Card.CARD_WIDTH + BIG_GAP,DEFAULT_GAP);

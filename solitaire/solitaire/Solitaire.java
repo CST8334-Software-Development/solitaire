@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+
 import java.awt.Color;
 
 import java.awt.EventQueue;
@@ -13,7 +15,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class Solitaire implements PropertyChangeListener {
+public class Solitaire extends JPanel implements PropertyChangeListener {
 	
 	public final static String STOCK_PILE_MOUSE_CLICK_EVENT="STOCK PILE CLICK";
 	public final static String TABLEAU_PILE_MOUSE_CLICK_EVENT="TABLEAU PILE CLICK";
@@ -34,17 +36,18 @@ public class Solitaire implements PropertyChangeListener {
 	private StockPile stockPile;
 	private WastePile wastePile;
 	private ArrayList<FoundationPile> foundationPiles;
-	private static Solitaire newGame;
-	private JFrame mainFrame;
 	
 	private CardPile currentClickedPile;
 	private int mouseClickCount=0;
+	
+	public Solitaire() {
+		startNewGame();
+	}
 	
 	public void startNewGame() {
 		
 		initAllCardsForGame();
 		initAllPilesOnScreen();
-		
 		currentClickedPile = null;
 		mouseClickCount=0;
 	}
@@ -150,37 +153,6 @@ public class Solitaire implements PropertyChangeListener {
 	}
 	
 	private void initAllPilesOnScreen() {
-		if (mainFrame!=null) mainFrame.dispose();
-		mainFrame = new JFrame("Solitaire");
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(TABLE_WIDTH,TABLE_HEIGHT);
-		mainFrame.setResizable(false);
-		
-		JMenuBar menuBar = new JMenuBar();
-		JMenu newGameMenu = new JMenu("Game");
-		JMenuItem newGameItem = new JMenuItem("New Game");
-
-		newGameItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				startNewGame();
-			}
-		});
-		JMenuItem exitItem = new JMenuItem("Exit");
-		exitItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				mainFrame.dispose();
-				System.exit(0);
-			}
-		});
-		
-		newGameMenu.add(newGameItem);
-		newGameMenu.add(exitItem);
-		menuBar.add(newGameMenu);
-		mainFrame.setJMenuBar(menuBar);
-		
-		mainFrame.getContentPane().setLayout(null);
-		mainFrame.getContentPane().setBackground(Color.ORANGE);
-
 		//1 draw stock pile 
 		//2 draw waste pile
 		//3 draw foundation pile
@@ -189,43 +161,34 @@ public class Solitaire implements PropertyChangeListener {
 		drawWastePile(2*DEFAULT_GAP + Card.CARD_WIDTH, DEFAULT_GAP);
 		drawFoundationPiles(2 * DEFAULT_GAP + 2 * Card.CARD_WIDTH + BIG_GAP,DEFAULT_GAP);
 		drawTableauPiles(DEFAULT_GAP,DEFAULT_GAP + Card.CARD_HEIGHT + 2 * DEFAULT_GAP);
-			
-		mainFrame.setVisible(true);	
+		setLayout(null);
+		setBackground(Color.ORANGE);
+		setVisible(true);	
 	}
 	private void drawStockPile(int x,int y) {
-		mainFrame.getContentPane().add(newGame.stockPile);
-		newGame.stockPile.setBounds(x,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
+		add(stockPile);
+		stockPile.setBounds(x,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
 	}
 	private void drawWastePile(int x,int y) {
-		mainFrame.getContentPane().add(newGame.wastePile);
-		newGame.wastePile.setBounds(x,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
+		add(wastePile);
+		wastePile.setBounds(x,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
 	}
 	
 	private void drawFoundationPiles(int x,int y) {
-		for (int i=0;i<newGame.foundationPiles.size();i++) {
+		for (int i=0;i<foundationPiles.size();i++) {
 			int newX =x +i*(DEFAULT_GAP + Card.CARD_WIDTH);
-			mainFrame.getContentPane().add(newGame.foundationPiles.get(i));
-			newGame.foundationPiles.get(i).setBounds(newX,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
+			add(foundationPiles.get(i));
+			foundationPiles.get(i).setBounds(newX,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
 		}
 	}
 	
 	private void drawTableauPiles(int x,int y) {
-		for (int i=0;i<newGame.tableauPiles.size();i++) {
+		for (int i=0;i< tableauPiles.size();i++) {
 			int newX =x +i*(DEFAULT_GAP + Card.CARD_WIDTH);
-			mainFrame.getContentPane().add(newGame.tableauPiles.get(i));
-			int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (newGame.tableauPiles.get(i).getActualSize()-1);
-			newGame.tableauPiles.get(i).setBounds(newX,y,Card.CARD_WIDTH,newHeight);
+			add(tableauPiles.get(i));
+			int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (tableauPiles.get(i).getActualSize()-1);
+			tableauPiles.get(i).setBounds(newX,y,Card.CARD_WIDTH,newHeight);
 		}
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		EventQueue.invokeLater(() ->
-		 {
-			newGame = new Solitaire();
-			newGame.startNewGame();
-		 });
-		
 	}
 
 	@Override

@@ -18,7 +18,18 @@ public class CardPile extends JComponent {
 	protected ArrayList<Card> cards;
 	private int x=0;		//x position
 	private int y=0;		//y position
+	private int faceUpCardCount=0;
 
+	public int getFaceUpCardCount() {
+		faceUpCardCount = 0; 
+		for (Card aCard:cards) {
+			if (aCard.isFaceUp()) {
+				faceUpCardCount++;
+			}
+		}
+		return faceUpCardCount;
+	}
+	
 	public CardPile() {
 		cards = new ArrayList<Card>();
 	}

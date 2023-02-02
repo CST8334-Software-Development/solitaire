@@ -19,6 +19,8 @@ public class TableauPile extends CardPile{
 		this.addMouseListener(new TableauPileMouseApdater(this));
 	}
 	
+	
+	
 	private class TableauPileMouseApdater extends MouseAdapter{
 		private TableauPile pile;
 		public TableauPileMouseApdater(TableauPile pile) {
@@ -51,4 +53,5 @@ public class TableauPile extends CardPile{
 			aCard.paintComponent(g);
 		}
 	}
+	
 }

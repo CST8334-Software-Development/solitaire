@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Solitaire implements PropertyChangeListener {
 	
@@ -286,7 +287,6 @@ public class Solitaire implements PropertyChangeListener {
 			currentClickedPile = pile;
 		}
 		else if (this.currentClickedPile!=pile){
-			// 
 			moveCard(this.currentClickedPile,pile);
 			mouseClickCount = 0;
 		}
@@ -301,8 +301,11 @@ public class Solitaire implements PropertyChangeListener {
 			currentClickedPile = pile;
 		}
 		else if (this.currentClickedPile!=pile){
-			moveCard(this.currentClickedPile,pile);
-			
+			//moveCard(this.currentClickedPile,pile);
+			if (this.currentClickedPile instanceof TableauPile)
+				moveCardByInterMedia(this.currentClickedPile,pile);
+			else
+				moveCard(this.currentClickedPile,pile);
 			Rectangle rt = pile.getBounds();
 			int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (pile.getActualSize()-1);
 			pile.setBounds(rt.x,rt.y,Card.CARD_WIDTH,newHeight);
@@ -310,23 +313,20 @@ public class Solitaire implements PropertyChangeListener {
 		}
 	}
 	private void handleFoundationPileMouseClickEvent(FoundationPile pile) {		
-		// To do
-			mouseClickCount+=1;
-			
-			if (mouseClickCount==1) {
-				currentClickedPile = pile;
-			}
-			else if (this.currentClickedPile!=pile){
-				// 
-				moveCard(this.currentClickedPile,pile);
-				mouseClickCount = 0;
-			}
+		mouseClickCount+=1;
 		
+		if (mouseClickCount==1) {
+			currentClickedPile = pile;
+		}
+		else if (this.currentClickedPile!=pile){
+			moveCard(this.currentClickedPile,pile);
+			mouseClickCount = 0;
+		}
 	}
 	private void moveCard(CardPile fromPile,CardPile toPile) {
 		if (fromPile.getActualSize()>0) {
 			System.out.println("Moving Card:" + fromPile.top().toString());
-			Card fromCard = this.currentClickedPile.top();
+			Card fromCard = fromPile.top();
 			if (fromCard.isFaceUp()) {
 				if (toPile.canPutOnTop(fromCard)) {
 					toPile.push(fromCard);
@@ -340,4 +340,29 @@ public class Solitaire implements PropertyChangeListener {
 			}
 		}
 	} 
+	
+	private void moveCardByInterMedia(CardPile fromPile,CardPile toPile) {
+		int cardsToMoveNum = fromPile.getFaceUpCardCount();
+		
+		Card firstMoveCard = fromPile.getCard(fromPile.getActualSize()-cardsToMoveNum);
+		if (toPile.canPutOnTop(firstMoveCard)) {
+			Stack<Card> tempCards = new Stack<Card>();
+			for (int i =0;i<cardsToMoveNum;i++) {
+				tempCards.push(fromPile.pop());
+			}
+			if (fromPile.getActualSize()>0) {
+				fromPile.top().setRevealed();
+			}
+			fromPile.repaint();
+			
+			for (int i =0;i<cardsToMoveNum;i++) {
+//				Card fromCard = tempCards.peek();
+//				if (toPile.canPutOnTop(fromCard)) {
+					toPile.push(tempCards.pop());
+//				}
+			}
+			toPile.repaint();
+		}
+	}
+
 }

@@ -16,7 +16,7 @@ public class Full_Deck {
 		
 		//create the Clubs suit
 		for (int i=1; i<14; i++) {
-			cardArray[i-1] = new Card(i,Card.SUIT_CLUB);
+			cardArray[i-1] = new Card(i,Card.SUIT_HEART);
 		}
 		
 		//create the Diamonds suit
@@ -26,12 +26,12 @@ public class Full_Deck {
 		
 		//create the Hearts suit
 		for (int i=1; i<14; i++) {
-			cardArray[i+25] = new Card(i,Card.SUIT_HEART);
+			cardArray[i+25] = new Card(i,Card.SUIT_DIAMOND);
 		}
 		
 		//create the Spades suit
 		for (int i=1; i<14; i++) {
-			cardArray[i+38] = new Card(i,Card.SUIT_SPADE);
+			cardArray[i+38] = new Card(i,Card.SUIT_CLUB);
 		}
 	}
 	

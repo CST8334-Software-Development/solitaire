@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>560</x>
+      <y>42</y>
+      <w>392</w>
+      <h>455</h>
+    </coordinates>
+    <panel_attributes>solitaire::Solitaire
+--
++STOCK_PILE_MOUSE_CLICK_EVENT = "STOCK PILE CLICK": String
++TABLEAU_PILE_MOUSE_CLICK_EVENT = "TABLEAU PILE CLICK": String
++FOUNDATION_PILE_MOUSE_CLICK_EVENT = "FOUNDATION PILE CLICK": String
++WASTE_PILE_MOUSE_CLICK_EVENT = "WASTE PILE CLICK": String
++CARD_MOUSE_CLICK_EVENT = "CARD CLICK": String
+~TABLE_HEIGHT = 600: int
+~TABLE_WIDTH = 800: int
+~DEFAULT_GAP = 20: int
+~NUM_FOUNDATION_PILE = 4: int
+~NUM_TABLEAU_PILE = 7: int
+~BIG_GAP = TABLE_WIDTH - 6 * Card.CARD_WIDTH - 7 * DEFAULT_GAP: int
+-Deck: Full_Deck
+-tableauPiles: ArrayList&lt;TableauPile&gt;
+-stockPile: StockPile
+-wastePile: WastePile
+-foundationPiles: ArrayList&lt;FoundationPile&gt;
+-newGame: Solitaire
+-mainFrame: JFrame
+-currentClickedPile: CardPile
+-mouseClickCount = 0: int
+--
++startNewGame(): void
++initAllCardsForGame(): void
+-initAllPilesOnScreen(): void
+-drawStockPile(int x, int y): void
+-drawWastePile(int x, int y): void
+-drawFoundationPiles(int x, int y): void
+-drawTableauPiles(int x, int y): void
++main(String[] args): void
++propertyChange(PropertyChangeEvent evt): void
+-handleStockPileMouseClickEvent(): void
+-handleWastePileMouseClickEvent(WastePile pile): void
+-handleTableauPileMouseClickEvent(TableauPile pile): void
+-handleFoundationPileMouseClickEvent(FoundationPile pile): void
+-moveCard(CardPile fromPile, CardPile toPile): void
+-moveCardByInterMedia(CardPile fromPile, CardPile toPile): void
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1344</x>
+      <y>476</y>
+      <w>231</w>
+      <h>399</h>
+    </coordinates>
+    <panel_attributes>solitaire::Card
+--
+-serialVersionUID = 1L: long
++SUIT_HEART = 0: int
++SUIT_SPADE = 1: int
++SUIT_DIAMOND = 2: int
++SUIT_CLUB = 3: int
++CARD_HEIGHT = 120: int
++CARD_WIDTH = 85: int
+-isFaceUp: boolean
+-value: int
+-suit: int
+-x = 0: int
+-y = 0: int
+-cardImage: BufferedImage
+-propertyChangeSupport: PropertyChangeSupport
+--
++Card(int value, int suit): ctor
++getImagePath(): String
+-getFaceImagePath(): String
+-getBackImagePath(): String
++setRevealed(): void
++setFaceDown(): void
++getCardValue(): int
++getCardSuit(): int
++isFaceUp(): Boolean
++setPosition(int x, int y): void
++getPosition(): Point
++paintComponent(Graphics g): void
++getPreferredSize(): Dimension
++getCardImage(): BufferedImage
++isCardRed(): boolean
++toString(): String
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>651</x>
+      <y>903</y>
+      <w>168</w>
+      <h>287</h>
+    </coordinates>
+    <panel_attributes>solitaire::CardPile
+--
+-serialVersionUID = 1L: long
+#cards: ArrayList&lt;Card&gt;
+-x = 0: int
+-y = 0: int
+-faceUpCardCount = 0: int
+--
++CardPile(): ctor
++getFaceUpCardCount(): int
++push(Card aCard): void
++pop(): Card
++top(): Card
++tail(): Card
++getActualSize(): int
++setPosition(int x, int y): void
++getPoint(int x, int y): Point
++getCard(int x): Card
++getXCoord(): int
++getYCoord(): int
+-getBlankImage(): String
++paintComponent(Graphics g): void
++getPreferredSize(): Dimension
++canPutOnTop(Card aCard): boolean
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>231</x>
+      <y>588</y>
+      <w>231</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>solitaire::FoundationPile
+--
+-suit: int
+-propertyChangeSupport: PropertyChangeSupport
+--
++FoundationPile(): ctor
++push(Card aCard): void
++setSuit(int suit): void
++getSuit(): int
++canPutOnTop(Card aCard): boolean
++paintComponent(Graphics g): void
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>525</x>
+      <y>588</y>
+      <w>231</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>solitaire::TableauPile
+--
++CASCADE_GAP = 15: int
+-propertyChangeSupport: PropertyChangeSupport
+--
++TableauPile(): ctor
++canPutOnTop(Card aCard): boolean
++getPreferredSize(): Dimension
++paintComponent(Graphics g): void
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1365</x>
+      <y>42</y>
+      <w>140</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>solitaire::Full_Deck
+--
+-cardArray: Card[]
+--
++Full_Deck(): ctor
++Shuffle_Deck(): void
++getCard(int cardIndex): Card
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1029</x>
+      <y>588</y>
+      <w>231</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>solitaire::StockPile
+--
+-propertyChangeSupport: PropertyChangeSupport
+--
++StockPile(): ctor
+bg=pink
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>777</x>
+      <y>588</y>
+      <w>231</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>solitaire::WastePile
+--
+-propertyChangeSupport: PropertyChangeSupport
+--
++WastePile(): ctor
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>714</y>
+      <w>406</w>
+      <h>203</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>560.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>644</x>
+      <y>693</y>
+      <w>112</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>140.0;300.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>749</x>
+      <y>644</y>
+      <w>420</w>
+      <h>273</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;370.0;580.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>742</x>
+      <y>644</y>
+      <w>154</w>
+      <h>273</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;370.0;200.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1435</x>
+      <y>119</y>
+      <w>21</w>
+      <h>371</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;510.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>490</y>
+      <w>427</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;140.0;590.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>637</x>
+      <y>490</y>
+      <w>126</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;140.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>742</x>
+      <y>490</y>
+      <w>182</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>240.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>749</x>
+      <y>490</y>
+      <w>420</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>580.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>945</x>
+      <y>84</y>
+      <w>434</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>600.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

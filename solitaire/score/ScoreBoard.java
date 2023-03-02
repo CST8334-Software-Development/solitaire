@@ -60,144 +60,10 @@ public class ScoreBoard {
 		thisDialog.dispose();
 		thisDialog = null;
 	}
-	private class ScoreBoardDialog extends JDialog{
-		private JTable kTable;
-		private JTable vTable;
-		private DefaultTableModel kTableModel;
-		private DefaultTableModel vTableModel;
-		private JButton okButton;
-		private JButton cancelButton;
-		private JLabel userNameLabel;
-		private JTextField userNameTextField;
-		private int dialog_height=500;
-		private int dialog_width=400;
-		
-		public ScoreBoardDialog(JFrame owner) {
-			super(owner,"Score Board", true) ;
-			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			int x = owner.getX()+owner.getWidth()/2-dialog_width/2;
-			int y = owner.getY()+owner.getHeight()/2-dialog_height/2;
-			this.setLocation(new Point(x,y));
-			this.setSize(dialog_width,dialog_height);
-			this.setResizable(false);
-			initDialog();
-		}
-		
-		private void initDialog() {
-			initKTable();
-			initVTable();
-			JScrollPane kScrollPane = new JScrollPane(kTable);
-			kTable.setFillsViewportHeight(true);
-			
-			JScrollPane vScrollPane = new JScrollPane(vTable);
-			vTable.setFillsViewportHeight(true);
-			
-			JTabbedPane tabbedPane = new JTabbedPane();
-
-			tabbedPane.addTab("KLONDIKE SCORE BOARD", null, kScrollPane,
-			                  "KLONDIKE SCORE BOARD");
-			
-			tabbedPane.addTab("VEGAS SCORE BOARD", null, vScrollPane,
-	                  "VEGAS SCORE BOARD");
-			
-			userNameLabel = new JLabel("Please input your name:");
-			userNameTextField = new JTextField(20);
-			userNameTextField.setText(currentUser);
-			okButton = new JButton("OK");
-			okButton.addActionListener(new ActionListener() { 
-				  public void actionPerformed(ActionEvent e) { 
-					    String newUserName = userNameTextField.getText();
-					    if (!newUserName.equals("")) {
-					    	if (!newUserName.equals(currentUser)) {
-					    		setCurrentUser(newUserName);
-					    	}
-					    }
-					    setVisible(false);
-					    dispose();
-				  } 
-			} );
-			cancelButton = new JButton("Cancel");
-			cancelButton.addActionListener(new ActionListener() { 
-				public void actionPerformed(ActionEvent e) {
-				    //setVisible(false);
-				    dispose();
-				}
-			});
-			
-			JPanel panel1 = new JPanel();
-			panel1.setLayout(new BorderLayout());
-			panel1.add(userNameLabel,BorderLayout.WEST);
-			panel1.add(userNameTextField,BorderLayout.EAST);
-
-			JPanel panel2 = new JPanel();
-			panel2.setLayout(new BorderLayout());
-			panel2.add(okButton,BorderLayout.WEST);
-			panel2.add(cancelButton,BorderLayout.EAST);
-			
-//			tabbedPane.setSize(dialog_width,300);
-//			panel1.setSize(dialog_width,50);
-//			panel2.setSize(dialog_width,50);
-
-			this.setLayout(new BorderLayout());
-			this.add(tabbedPane,BorderLayout.NORTH);
-			this.add(panel1,BorderLayout.CENTER);
-			this.add(panel2,BorderLayout.SOUTH);
-			this.pack();
-			
-//			this.add(userNameLabel);
-//			this.add(userNameTextField);
-//			this.add(okButton);
-//			this.add(cancelButton);
-		}
-		private void initKTable() {
-			kTableModel= new DefaultTableModel();
-			
-			kTableModel.addColumn("Rank");
-			kTableModel.addColumn("Name");
-			kTableModel.addColumn("Score");
-			kTableModel.addColumn("Time");
-			
-			for (int i=0;i<kTableModel.getRowCount();i++) {
-				kTableModel.removeRow(i);
-			}
-			
-			for (int i =0;i<kScoreRecord.size();i++) {
-				Object[] rowObject = new Object[4];
-				rowObject[0] = i+1;
-				rowObject[1] = kScoreRecord.get(i).getName();
-				rowObject[2] = kScoreRecord.get(i).getScore();
-				rowObject[3] = kScoreRecord.get(i).getRecordTime();
-				kTableModel.addRow(rowObject);
-			}
-			
-			kTable = new JTable(kTableModel);
-			
-		}
-		
-		private void initVTable() {
-			
-			vTableModel= new DefaultTableModel();
-			vTableModel.addColumn("Rank");
-			vTableModel.addColumn("Name");
-			vTableModel.addColumn("Score");
-			vTableModel.addColumn("Time");
-
-			for (int i=0;i<vTableModel.getRowCount();i++) {
-				vTableModel.removeRow(i);
-			}
-			
-			for (int i =0;i<vScoreRecord.size();i++) {
-				Object[] rowObject = new Object[4];
-				rowObject[0] = i+1;
-				rowObject[1] = vScoreRecord.get(i).getName();
-				rowObject[2] = vScoreRecord.get(i).getScore();
-				rowObject[3] = vScoreRecord.get(i).getRecordTime();
-				vTableModel.addRow(rowObject);
-			}
-			vTable = new JTable(vTableModel);
-		}
+	public int getCurrentGameMode() {
+		return this.currentGameMode;
 	}
-	
+		
 	public String getCurrentUser() {
 		return currentUser==null?"":currentUser;
 	}
@@ -339,6 +205,156 @@ public class ScoreBoard {
 		         } catch (IOException e) {
 		            e.printStackTrace();
 	        }
+		}
+	}
+	
+	private class ScoreBoardDialog extends JDialog{
+		private JTable kTable;
+		private JTable vTable;
+		private DefaultTableModel kTableModel;
+		private DefaultTableModel vTableModel;
+		private JButton okButton;
+		private JButton cancelButton;
+		private JLabel userNameLabel;
+		private JTextField userNameTextField;
+		private JTabbedPane tabbedPane;
+		private int dialog_height=500;
+		private int dialog_width=400;
+		
+		public ScoreBoardDialog(JFrame owner) {
+			super(owner,"Score Board", true) ;
+			this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			int x = owner.getX()+owner.getWidth()/2-dialog_width/2;
+			int y = owner.getY()+owner.getHeight()/2-dialog_height/2;
+			this.setLocation(new Point(x,y));
+			this.setSize(dialog_width,dialog_height);
+			this.setResizable(false);
+			initDialog();
+		}
+				
+		private void initDialog() {
+			initKTable();
+			initVTable();
+			JScrollPane kScrollPane = new JScrollPane(kTable);
+			kTable.setFillsViewportHeight(true);
+			
+			JScrollPane vScrollPane = new JScrollPane(vTable);
+			vTable.setFillsViewportHeight(true);
+			
+			tabbedPane = new JTabbedPane();
+
+			tabbedPane.addTab("KLONDIKE SCORE BOARD", null, kScrollPane,
+			                  "KLONDIKE SCORE BOARD");
+			
+			tabbedPane.addTab("VEGAS SCORE BOARD", null, vScrollPane,
+	                  "VEGAS SCORE BOARD");
+			
+			tabbedPane.setSelectedIndex(currentGameMode);
+			
+			userNameLabel = new JLabel("Please input your name:");
+			userNameTextField = new JTextField(20);
+			userNameTextField.setText(currentUser);
+			okButton = new JButton("OK");
+			okButton.addActionListener(new ActionListener() { 
+				  public void actionPerformed(ActionEvent e) { 
+					    String newUserName = userNameTextField.getText();
+					    if (!newUserName.equals("")) {
+					    	if (!newUserName.equals(currentUser)) {
+					    		setCurrentUser(newUserName);
+					    	}
+					    }
+					    currentGameMode = tabbedPane.getSelectedIndex();
+					    setVisible(false);
+					    dispose();
+				  } 
+			} );
+			cancelButton = new JButton("Cancel");
+			cancelButton.addActionListener(new ActionListener() { 
+				public void actionPerformed(ActionEvent e) {
+				    //setVisible(false);
+				    dispose();
+				}
+			});
+			
+			JPanel panel1 = new JPanel();
+			panel1.setLayout(new BorderLayout());
+			panel1.add(userNameLabel,BorderLayout.WEST);
+			panel1.add(userNameTextField,BorderLayout.EAST);
+
+			JPanel panel2 = new JPanel();
+			panel2.setLayout(new BorderLayout());
+			panel2.add(okButton,BorderLayout.WEST);
+			panel2.add(cancelButton,BorderLayout.EAST);
+			
+//			tabbedPane.setSize(dialog_width,300);
+//			panel1.setSize(dialog_width,50);
+//			panel2.setSize(dialog_width,50);
+
+			this.setLayout(new BorderLayout());
+			this.add(tabbedPane,BorderLayout.NORTH);
+			this.add(panel1,BorderLayout.CENTER);
+			this.add(panel2,BorderLayout.SOUTH);
+			this.pack();
+			
+//			this.add(userNameLabel);
+//			this.add(userNameTextField);
+//			this.add(okButton);
+//			this.add(cancelButton);
+		}
+		private void initKTable() {
+			kTableModel= new DefaultTableModel();
+			
+			kTableModel.addColumn("Rank");
+			kTableModel.addColumn("Name");
+			kTableModel.addColumn("Score");
+			kTableModel.addColumn("Time");
+			
+			for (int i=0;i<kTableModel.getRowCount();i++) {
+				kTableModel.removeRow(i);
+			}
+			
+			for (int i =0;i<kScoreRecord.size();i++) {
+				Object[] rowObject = new Object[4];
+				rowObject[0] = i+1;
+				rowObject[1] = kScoreRecord.get(i).getName();
+				rowObject[2] = kScoreRecord.get(i).getScore();
+				rowObject[3] = kScoreRecord.get(i).getRecordTime();
+				kTableModel.addRow(rowObject);
+			}
+			
+			kTable = new JTable(kTableModel) {
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+			
+		}
+		
+		private void initVTable() {
+			
+			vTableModel= new DefaultTableModel();
+			vTableModel.addColumn("Rank");
+			vTableModel.addColumn("Name");
+			vTableModel.addColumn("Score");
+			vTableModel.addColumn("Time");
+
+			for (int i=0;i<vTableModel.getRowCount();i++) {
+				vTableModel.removeRow(i);
+			}
+			
+			for (int i =0;i<vScoreRecord.size();i++) {
+				Object[] rowObject = new Object[4];
+				rowObject[0] = i+1;
+				rowObject[1] = vScoreRecord.get(i).getName();
+				rowObject[2] = vScoreRecord.get(i).getScore();
+				rowObject[3] = vScoreRecord.get(i).getRecordTime();
+				vTableModel.addRow(rowObject);
+			}
+			vTable = new JTable(vTableModel) {
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 		}
 	}
 	

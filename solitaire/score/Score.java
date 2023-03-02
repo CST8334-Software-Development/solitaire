@@ -16,8 +16,10 @@ public class Score {
 	}
 	
 	public void setGameMode(int gameMode) {
-		if (this.gameMode!= gameMode)	
+		if (this.gameMode!= gameMode)
+			this.gameMode = gameMode;
 			resetScore();
+		
 	}
 	
 	public void resetScore() {

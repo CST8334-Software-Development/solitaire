@@ -299,14 +299,22 @@ public class Solitaire implements PropertyChangeListener {
 		scoreBoard.saveCurrentScore(currentScore);
 		scoreBoard.showScoreBoardDialog(mainFrame);
 		String userName= scoreBoard.getCurrentUser();
+		int gameMode = scoreBoard.getCurrentGameMode();
+		
+		if (this.currentGameMode != gameMode) {
+			this.currentGameMode = gameMode;
+			currentScore.setGameMode(this.currentGameMode);
+			currentScore.resetScore();				
+		}
+		
 		if (userName!=null && !userName.equals("")) {
 			if (!userName.equals(currentScore.getUser())){
 				//scoreBoard.setCurrentUser(userName);
 				currentScore.setUser(userName);
-				currentScore.resetScore();
-				updateStatusBar();
+				currentScore.resetScore();				
 			}
 		}
+		updateStatusBar();
 		//scoreBoard.closeDialog();
 	}
 	
@@ -448,7 +456,7 @@ public class Solitaire implements PropertyChangeListener {
 		}
 		else if (this.currentClickedPile!=pile){
 			moveCard(this.currentClickedPile,pile);
-			this.currentScore.addScore(10);
+			this.currentScore.addScore(5);
 			this.scoreLabel.setText("Current Score:" + this.currentScore.getScore());
 			mouseClickCount = 0;
 		}

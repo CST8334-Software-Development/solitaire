@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import score.Score;
 import score.ScoreBoard;
@@ -17,6 +18,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -33,6 +36,12 @@ public class Solitaire implements PropertyChangeListener {
 	public final static String CURRENT_USER_CHANGE_EVENT="CHANGE_USER";
 	public final static String SCORE_CHANGE_EVENT="CHANGE SCORE";
 	
+	public final static int KLONDIKE_GAME_MODE=0;
+	public final static int VEGAS_GAME_MODE=1;
+	public final static int KLONDIKE_GAME_INITIAL_SCORE=0;	
+	public final static int VEGAS_GAME_INITIAL_SCORE=-52;
+
+	
 	final static int TABLE_HEIGHT = 600;
 	final static int TABLE_WIDTH = 800;
 	final static int DEFAULT_GAP = 20;
@@ -47,7 +56,7 @@ public class Solitaire implements PropertyChangeListener {
 	private WastePile wastePile;
 	private ArrayList<FoundationPile> foundationPiles;
 	private static Solitaire newGame;
-	private JFrame mainFrame;
+	private GameFrame mainFrame;
 	
 	private CardPile currentClickedPile;
 	private int mouseClickCount=0;
@@ -56,18 +65,56 @@ public class Solitaire implements PropertyChangeListener {
 	private Score currentScore;
 	private JLabel scoreLabel;
 	private JLabel userNameLabel;
+	private JLabel gameModeLabel;
+	
+	private int currentGameMode = KLONDIKE_GAME_MODE;
+	
+	private class GameFrame extends JFrame{
+		public GameFrame(String title) {
+			super(title);
+		}
+		public void paint(Graphics g) {
+			Image offScreenImage=null;
+	        if (offScreenImage == null) {
+	        	offScreenImage = createImage(TABLE_WIDTH, TABLE_HEIGHT);
+
+	        }
+	        Graphics gImage = offScreenImage.getGraphics();
+
+	        gImage.setColor(gImage.getColor());
+
+	        gImage.fillRect(0, 0, TABLE_WIDTH, TABLE_HEIGHT);
+	        super.paint(gImage);
+
+	        g.drawImage(offScreenImage, 0, 0, null);
+		}
+		private class PaintThread implements Runnable {
+	
+		        public void run() {
+		            while (true) {
+		                repaint();
+		                try {
+		                    Thread.sleep(20);
+		                } catch (InterruptedException e) {
+		                    e.printStackTrace();
+		                }
+		            }
+		        }
+	
+		    }
+		}
 	
 	public void startNewGame() {
-		scoreBoard = new ScoreBoard();
-		scoreBoard.getScoreRecord();
-		currentScore= new Score();
-		showScoreBoard();
+		scoreBoard = new ScoreBoard(currentGameMode);
+		
+		currentScore= new Score(currentGameMode);
+		
 		initAllCardsForGame();
 		initAllPilesOnScreen();
 		
 		currentClickedPile = null;
 		mouseClickCount=0;
-
+		showScoreBoard();
 	}
 	
 	public void initAllCardsForGame() {
@@ -174,10 +221,13 @@ public class Solitaire implements PropertyChangeListener {
 		JPanel statusPanel = new JPanel();
 		statusPanel.setLayout(new BorderLayout());
 		userNameLabel = new JLabel();
-		
+		gameModeLabel = new JLabel();
 		scoreLabel = new JLabel();
+		userNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		statusPanel.setLayout(new BorderLayout());
 		
-		statusPanel.add(userNameLabel,BorderLayout.WEST);
+		statusPanel.add(gameModeLabel,BorderLayout.WEST);
+		statusPanel.add(userNameLabel,BorderLayout.CENTER);
 		statusPanel.add(scoreLabel,BorderLayout.EAST);
 
 		mainFrame.getContentPane().add(statusPanel);
@@ -188,7 +238,7 @@ public class Solitaire implements PropertyChangeListener {
 	}
 	private void initAllPilesOnScreen() {
 		if (mainFrame!=null) mainFrame.dispose();
-		mainFrame = new JFrame("Solitaire");
+		mainFrame = new GameFrame("Solitaire");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(TABLE_WIDTH,TABLE_HEIGHT);
 		mainFrame.setResizable(false);
@@ -247,21 +297,17 @@ public class Solitaire implements PropertyChangeListener {
 	
 	private void showScoreBoard() {
 		scoreBoard.saveCurrentScore(currentScore);
-		String userName = (String) JOptionPane.showInputDialog(mainFrame,
-				scoreBoard.getScoreRecord(),
-				"Score Board",
-				JOptionPane.OK_CANCEL_OPTION,
-				null,
-				null,
-				scoreBoard.getCurrentUser());
+		scoreBoard.showScoreBoardDialog(mainFrame);
+		String userName= scoreBoard.getCurrentUser();
 		if (userName!=null && !userName.equals("")) {
 			if (!userName.equals(currentScore.getUser())){
-				scoreBoard.setCurrentUser(userName);
+				//scoreBoard.setCurrentUser(userName);
 				currentScore.setUser(userName);
-				currentScore.initScore();
+				currentScore.resetScore();
 				updateStatusBar();
 			}
 		}
+		//scoreBoard.closeDialog();
 	}
 	
 	private void updateStatusBar() {
@@ -269,6 +315,13 @@ public class Solitaire implements PropertyChangeListener {
 			userNameLabel.setText("Current User:" + currentScore.getUser());
 		if (scoreLabel!=null)
 			scoreLabel.setText("Current Score:" + this.currentScore.getScore());
+		if (this.currentGameMode == KLONDIKE_GAME_MODE) {
+			gameModeLabel.setText("Current Game Mode:KLONDIKE");
+		}
+		if (this.currentGameMode == VEGAS_GAME_MODE) {
+			gameModeLabel.setText("Current Game Mode:VEGAS");
+		}
+		mainFrame.validate();
 	}
 	private void drawStockPile(int x,int y) {
 		mainFrame.getContentPane().add(newGame.stockPile);
@@ -297,7 +350,6 @@ public class Solitaire implements PropertyChangeListener {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		EventQueue.invokeLater(() ->
 		 {
 			newGame = new Solitaire();
@@ -307,7 +359,6 @@ public class Solitaire implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
 		String propertyName = evt.getPropertyName();
 		System.out.println(propertyName);
 		

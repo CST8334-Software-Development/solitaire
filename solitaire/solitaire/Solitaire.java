@@ -337,7 +337,7 @@ public class Solitaire implements PropertyChangeListener {
 	}
 	private void drawWastePile(int x,int y) {
 		mainFrame.getContentPane().add(newGame.wastePile);
-		newGame.wastePile.setBounds(x,y,Card.CARD_WIDTH,Card.CARD_HEIGHT);
+		newGame.wastePile.setBounds(x,y,Card.CARD_WIDTH + 40,Card.CARD_HEIGHT);
 	}
 	
 	private void drawFoundationPiles(int x,int y) {

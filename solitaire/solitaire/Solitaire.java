@@ -446,13 +446,23 @@ public class Solitaire implements PropertyChangeListener {
 	}
 	
 	private void handleTableauPileMouseClickEvent(TableauPile pile) {
-		// To do
+		/// To do
 		mouseClickCount+=1;
 		
 		if (mouseClickCount==1) {
 			currentClickedPile = pile;
-		}
-		else if (this.currentClickedPile!=pile){
+		} else if (this.currentClickedPile==pile) {
+			for (int i=0;i<4;i++) {
+				moveCard(pile,this.foundationPiles.get(i));
+			}
+			for (int i=0;i<7;i++) {
+			moveCard(pile,this.tableauPiles.get(i));
+			Rectangle rt = this.tableauPiles.get(i).getBounds();
+			int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (this.tableauPiles.get(i).getActualSize()-1);
+			this.tableauPiles.get(i).setBounds(rt.x,rt.y,Card.CARD_WIDTH,newHeight);
+			}
+			mouseClickCount = 0;
+	    } else if (this.currentClickedPile!=pile){
 			//moveCard(this.currentClickedPile,pile);
 			if (this.currentClickedPile instanceof TableauPile)
 				moveCardByInterMedia(this.currentClickedPile,pile);

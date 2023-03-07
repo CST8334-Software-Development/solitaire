@@ -421,9 +421,25 @@ public class Solitaire implements PropertyChangeListener {
 		
 		if (mouseClickCount==1) {
 			currentClickedPile = pile;
-		}
-		else if (this.currentClickedPile!=pile){
-			moveCard(this.currentClickedPile,pile);
+		} else {
+			for (int i=0;i<4;i++) {
+				moveCard(pile,this.foundationPiles.get(i));
+			}
+			for (int i=0;i<7;i++) {
+				if (pile.top().getCardValue()!=13 && pile.getActualSize()>0) {
+					if (this.tableauPiles.get(i).getActualSize()>0) {
+						moveCard(pile,this.tableauPiles.get(i));
+						Rectangle rt = this.tableauPiles.get(i).getBounds();
+						int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (this.tableauPiles.get(i).getActualSize()-1);
+						this.tableauPiles.get(i).setBounds(rt.x,rt.y,Card.CARD_WIDTH,newHeight);
+					}
+				} else {
+					moveCard(pile,this.tableauPiles.get(i));
+					Rectangle rt = this.tableauPiles.get(i).getBounds();
+					int newHeight = Card.CARD_HEIGHT + TableauPile.CASCADE_GAP * (this.tableauPiles.get(i).getActualSize()-1);
+					this.tableauPiles.get(i).setBounds(rt.x,rt.y,Card.CARD_WIDTH,newHeight);
+				}
+			}
 			mouseClickCount = 0;
 		}
 		
